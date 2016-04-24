@@ -28,7 +28,8 @@ Sample.prototype.play = function() {
 		return;
 	}
 	if (this.source !== null && this.isPlaying) {
-		this.stop();
+		return;
+		// this.stop();
 	}
 
 	var source = this.source;
@@ -37,6 +38,7 @@ Sample.prototype.play = function() {
 
 	var self = this;
 	source.onended = function() {
+		self.stop();
 		// console.log(self, "ended");
 	};
 
@@ -119,13 +121,12 @@ function startLoop() {
 	looping = true;
 }
 function enqueueSample(ascii, now) {
-	if (!looping) {
-		startLoop();
-	}
-
 	if (now === undefined) now = getTimeInMeasure();
-	sampleQ.push([now, ascii]);
-	console.log(now, ascii);
+	// amusing hack:
+	setTimeout(function() {
+		sampleQ.push([now, ascii]);
+		console.log(now, ascii);
+	}, tickRate*2);
 }
 function getTimeInMeasure() {
 	return (context.currentTime - startTime) % loopLength;
@@ -157,8 +158,10 @@ document.addEventListener('keydown', function (ev) {
 	}
 	if (!(ascii in sampleMap)) return;
 
-	// sampleMap[ascii].play();
-	enqueueSample(ascii);
+	sampleMap[ascii].play();
+	if (looping) {
+		enqueueSample(ascii);
+	}
 });
 
 
