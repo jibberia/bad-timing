@@ -1,19 +1,17 @@
 var sampleMap = {
-	'a': 'samples/kick.mp3',
-	's': 'samples/snare.mp3',
-	'd': 'samples/hihat.mp3'
-};
+	'a': 'samples/a.mp3',
+	's': 'samples/s.mp3',
+	'd': 'samples/d.mp3',
+	'f': 'samples/f.mp3',
+	'g': 'samples/g.mp3',
+	'h': 'samples/h.mp3',
+	'j': 'samples/j.mp3',
+	'k': 'samples/k.mp3',
 
-// var sampleMap = {
-// 	'a': 'samples/a.mp3',
-// 	's': 'samples/s.mp3',
-// 	'd': 'samples/d.mp3',
-// 	'f': 'samples/f.mp3',
-// 	'g': 'samples/g.mp3',
-// 	'h': 'samples/h.mp3',
-// 	'j': 'samples/j.mp3',
-// 	'k': 'samples/k.mp3'
-// };
+	'q': 'samples/kick.mp3',
+	'w': 'samples/snare.mp3',
+	'e': 'samples/hihat.mp3'
+};
 
 function Sample(url) {
 	this.url = url;
@@ -39,7 +37,7 @@ Sample.prototype.play = function() {
 
 	var self = this;
 	source.onended = function() {
-		console.log(self, "ended");
+		// console.log(self, "ended");
 	};
 
 	source.start(/*context.currentTime*/);
@@ -98,7 +96,8 @@ function initSamples(context) {
 }
 
 function initAudio() {
-	var context = window.context = new AudioContext;
+	var AC = window.AudioContext || window.webkitAudioContext;
+	var context = window.context = new AC;
 
 }
 
@@ -106,36 +105,63 @@ initAudio();
 initSamples(window.context);
 
 
-var loopLength = (120.0/60.0) * 4.0; // 4 beats @ 120bpm
+
+
+
+var loopLength = (60.0/120.0) * 4.0; // 4 beats @ 120bpm
+console.log("loopLength", loopLength);
 var startTime = 0.0;
 var looping = false;
-var sampleQ = {};
+var sampleQ = [];
 
 function startLoop() {
 	startTime = context.currentTime;
 	looping = true;
 }
-function enqueueSample(ascii) {
+function enqueueSample(ascii, now) {
 	if (!looping) {
 		startLoop();
 	}
 
-	sampleQ[getTimeInMeasure()] = ascii;
+	if (now === undefined) now = getTimeInMeasure();
+	sampleQ.push([now, ascii]);
+	console.log(now, ascii);
 }
 function getTimeInMeasure() {
 	return (context.currentTime - startTime) % loopLength;
 }
-// setTimeout(function tick() {
-// 	var t = getTimeInMeasure();
+var tickRate = 25.0;
+setInterval(function tick() {
+	if (!looping) return;
+	var measureTime = getTimeInMeasure();
+	for (var i = 0; i < sampleQ.length; i++) {
+		var note = sampleQ[i];
+		var noteTime = note[0];
+		var ascii = note[1];
 
-// }, 25);
+		var begin = Math.max(measureTime - (tickRate/1000.0), 0);
+		if (noteTime >= begin && noteTime <= measureTime) {
+			console.log('noteTime', noteTime, 'begin', begin, 'measureTime', measureTime);
+			sampleMap[ascii].play();
+		}
+	}
+}, tickRate);
 
 document.addEventListener('keydown', function (ev) {
+	console.log('key ' + ev.keyCode);
 	window.ev = ev;
 	var ascii = String.fromCharCode(ev.keyCode - 65 + 97);
+	if (ev.keyCode == 32) {
+		looping = !looping;
+		return;
+	}
 	if (!(ascii in sampleMap)) return;
 
-	var sample = sampleMap[ascii];
-
-	sample.play();
+	// sampleMap[ascii].play();
+	enqueueSample(ascii);
 });
+
+
+for (var i = 0; i < 8; i++) {
+	enqueueSample('e', i * (loopLength / 8.0));
+}
