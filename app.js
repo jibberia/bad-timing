@@ -1,18 +1,18 @@
 var sampleMap = {
-	'a': '/samples/kick.mp3',
-	's': '/samples/snare.mp3',
-	'd': '/samples/hihat.mp3'
+	'a': 'samples/kick.mp3',
+	's': 'samples/snare.mp3',
+	'd': 'samples/hihat.mp3'
 };
 
 // var sampleMap = {
-// 	'a': '/samples/a.mp3',
-// 	's': '/samples/s.mp3',
-// 	'd': '/samples/d.mp3',
-// 	'f': '/samples/f.mp3',
-// 	'g': '/samples/g.mp3',
-// 	'h': '/samples/h.mp3',
-// 	'j': '/samples/j.mp3',
-// 	'k': '/samples/k.mp3'
+// 	'a': 'samples/a.mp3',
+// 	's': 'samples/s.mp3',
+// 	'd': 'samples/d.mp3',
+// 	'f': 'samples/f.mp3',
+// 	'g': 'samples/g.mp3',
+// 	'h': 'samples/h.mp3',
+// 	'j': 'samples/j.mp3',
+// 	'k': 'samples/k.mp3'
 // };
 
 function Sample(url) {
@@ -127,7 +127,7 @@ function getTimeInMeasure() {
 }
 // setTimeout(function tick() {
 // 	var t = getTimeInMeasure();
-	
+
 // }, 25);
 
 document.addEventListener('keydown', function (ev) {
