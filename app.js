@@ -15,16 +15,6 @@ var sampleMap = {
 // 	'k': '/samples/k.mp3'
 // };
 
-document.addEventListener('keydown', function (ev) {
-	window.ev = ev;
-	var ascii = String.fromCharCode(ev.keyCode - 65 + 97);
-	if (!(ascii in sampleMap)) return;
-
-	var sample = sampleMap[ascii];
-
-	sample.play();
-});
-
 function Sample(url) {
 	this.url = url;
 	this.buffer = null;
@@ -114,3 +104,38 @@ function initAudio() {
 
 initAudio();
 initSamples(window.context);
+
+
+var loopLength = (120.0/60.0) * 4.0; // 4 beats @ 120bpm
+var startTime = 0.0;
+var looping = false;
+var sampleQ = {};
+
+function startLoop() {
+	startTime = context.currentTime;
+	looping = true;
+}
+function enqueueSample(ascii) {
+	if (!looping) {
+		startLoop();
+	}
+
+	sampleQ[getTimeInMeasure()] = ascii;
+}
+function getTimeInMeasure() {
+	return (context.currentTime - startTime) % loopLength;
+}
+// setTimeout(function tick() {
+// 	var t = getTimeInMeasure();
+	
+// }, 25);
+
+document.addEventListener('keydown', function (ev) {
+	window.ev = ev;
+	var ascii = String.fromCharCode(ev.keyCode - 65 + 97);
+	if (!(ascii in sampleMap)) return;
+
+	var sample = sampleMap[ascii];
+
+	sample.play();
+});
