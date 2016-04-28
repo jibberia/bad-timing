@@ -13,28 +13,29 @@ var sampleMap = {
 	'e': 'samples/hihat.mp3'
 };
 
-function Sample(url) {
+function Sample(url, buffer) {
 	this.url = url;
-	this.buffer = null;
+	this.buffer = buffer;
 	this.source = context.createBufferSource();
 	this.isPlaying = false;
 }
 
-Sample.prototype.play = function() {
-	console.log("play", this);
+Sample.prototype.play = function(when) {
+	console.log("play", this, "when", when);
 
 	if (this.buffer === null) {
 		console.error("buffer is null; cannot play");
 		return;
 	}
 	if (this.source !== null && this.isPlaying) {
+		console.log(this, "already playing -- return");
 		return;
 		// this.stop();
 	}
 
 	var source = this.source;
 	source.buffer = this.buffer;
-	source.connect(context.destination);
+	source.connect(gainNode);
 
 	var self = this;
 	source.onended = function() {
@@ -42,7 +43,11 @@ Sample.prototype.play = function() {
 		// console.log(self, "ended");
 	};
 
-	source.start(/*context.currentTime*/);
+	if (when === undefined) {
+		source.start();
+	} else {
+		source.start(when);
+	}
 	this.isPlaying = true;
 }
 
@@ -54,7 +59,7 @@ Sample.prototype.stop = function() {
 	if (!this.isPlaying) {
 		return;
 	}
-	console.log("stop", this);
+	// console.log("stop", this);
 	this.source.stop();
 	this.source = context.createBufferSource();
 	this.isPlaying = false;
@@ -78,9 +83,8 @@ function initSamples(context) {
 				context.decodeAudioData(request.response,
 					function(audioData) {
 						console.log("successfully decoded", path);
-						var sample = new Sample(path);
-						console.log(audioData);
-						sample.buffer = audioData;
+						var sample = new Sample(path, audioData);
+						// console.log(audioData);
 						sampleMap[k] = sample;
 					},
 					function(e) {
@@ -100,7 +104,9 @@ function initSamples(context) {
 function initAudio() {
 	var AC = window.AudioContext || window.webkitAudioContext;
 	var context = window.context = new AC;
-
+	var gainNode = window.gainNode = context.createGain();
+	gainNode.gain.value = 0.1;
+	gainNode.connect(context.destination);
 }
 
 initAudio();
@@ -122,28 +128,43 @@ function startLoop() {
 }
 function enqueueSample(ascii, now) {
 	if (now === undefined) now = getTimeInMeasure();
-	// amusing hack:
+	// amusing hack to prevent reading & playing this note from the q:
 	setTimeout(function() {
-		sampleQ.push([now, ascii]);
-		console.log(now, ascii);
+		var note = {time: now, ascii: ascii};
+		sampleQ.push(note);
+		console.log(note);
 	}, tickRate*2);
 }
 function getTimeInMeasure() {
 	return (context.currentTime - startTime) % loopLength;
 }
+function clearLoop() {
+	sampleQ = [];
+	addEighthNoteHats();
+}
+function undo() {
+	sampleQ.pop();
+	console.log(sampleQ);
+}
+function quantize(noteTime) {
+	var sixteenth = loopLength / 16.0;
+	var lower = parseInt(noteTime / sixteenth);
+}
 var tickRate = 25.0;
 setInterval(function tick() {
 	if (!looping) return;
 	var measureTime = getTimeInMeasure();
+	console.log(measureTime);
 	for (var i = 0; i < sampleQ.length; i++) {
 		var note = sampleQ[i];
-		var noteTime = note[0];
-		var ascii = note[1];
 
+		// TODO this is off
 		var begin = Math.max(measureTime - (tickRate/1000.0), 0);
-		if (noteTime >= begin && noteTime <= measureTime) {
-			console.log('noteTime', noteTime, 'begin', begin, 'measureTime', measureTime);
-			sampleMap[ascii].play();
+		if (note.time >= begin && note.time <= measureTime) {
+			console.log('note.time', note.time, 'measureTime', measureTime, 'begin', begin,
+				'note.time-begin', note.time-begin);
+
+			sampleMap[note.ascii].play(note.time-begin);
 		}
 	}
 }, tickRate);
@@ -152,9 +173,16 @@ document.addEventListener('keydown', function (ev) {
 	console.log('key ' + ev.keyCode);
 	window.ev = ev;
 	var ascii = String.fromCharCode(ev.keyCode - 65 + 97);
-	if (ev.keyCode == 32) {
+	switch (ev.keyCode) {
+	case 32: // spacebar
 		looping = !looping;
 		return;
+	case 192: // `
+		clearLoop();
+		break;
+	case 188: // ,
+		undo();
+		break;
 	}
 	if (!(ascii in sampleMap)) return;
 
@@ -164,7 +192,9 @@ document.addEventListener('keydown', function (ev) {
 	}
 });
 
-
-for (var i = 0; i < 8; i++) {
-	enqueueSample('e', i * (loopLength / 8.0));
+function addEighthNoteHats() {
+	for (var i = 0; i < 8; i++) {
+		enqueueSample('e', i * (loopLength / 8.0));
+	}
 }
+addEighthNoteHats();
