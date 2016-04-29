@@ -13,15 +13,22 @@ var sampleMap = {
 	'e': 'samples/hihat.mp3'
 };
 
-function Sample(url, buffer) {
+function Sample(letter, url, buffer) {
+	this.letter = letter;
 	this.url = url;
 	this.buffer = buffer;
 	this.source = context.createBufferSource();
 	this.isPlaying = false;
+	this.element = null;
 }
 
 Sample.prototype.play = function(when) {
 	console.log("play", this, "when", when);
+
+	var self = this;
+	setTimeout(function() {
+		self.wiggle();
+	}, 0);
 
 	if (this.buffer === null) {
 		console.error("buffer is null; cannot play");
@@ -65,13 +72,21 @@ Sample.prototype.stop = function() {
 	this.isPlaying = false;
 };
 
+Sample.prototype.wiggle = function() {
+	if (this.element == null) return;
+	console.log('wiggle ' + this.letter);
+	
+}
+
 function initSamples(context) {
 	var delay = 0;
-	for (var k in sampleMap) {
-		if (!sampleMap.hasOwnProperty(k)) continue;
+	var numSamplesLoaded = 0;
+	var numSamples = Object.keys(sampleMap).length;
+	for (var letter in sampleMap) {
+		if (!sampleMap.hasOwnProperty(letter)) continue;
 
-		setTimeout(function(k) {
-			var path = sampleMap[k];
+		setTimeout(function(letter) {
+			var path = sampleMap[letter];
 
 			var request = new XMLHttpRequest();
 			request.open('GET', path, true);
@@ -79,13 +94,17 @@ function initSamples(context) {
 
 			request.onload = function(ev) {
 				// console.log(ev);
-				// console.log(k, request.response);
+				// console.log(letter, request.response);
 				context.decodeAudioData(request.response,
 					function(audioData) {
-						console.log("successfully decoded", path);
-						var sample = new Sample(path, audioData);
+						// console.log("successfully decoded", path);
+						var sample = new Sample(letter, path, audioData);
 						// console.log(audioData);
-						sampleMap[k] = sample;
+						sampleMap[letter] = sample;
+						numSamplesLoaded++;
+						if (numSamplesLoaded == numSamples) {
+							onSamplesLoaded();
+						}
 					},
 					function(e) {
 						if (e) console.error("actual exception", e);
@@ -94,10 +113,9 @@ function initSamples(context) {
 				);
 			};
 
-			console.log('requesting', k);
+			// console.log('requesting', letter);
 			request.send();
-		}, delay, k);
-		// delay += 200; // wtf, why do i have to do this
+		}, 0, letter);
 	}
 }
 
@@ -105,7 +123,7 @@ function initAudio() {
 	var AC = window.AudioContext || window.webkitAudioContext;
 	var context = window.context = new AC;
 	var gainNode = window.gainNode = context.createGain();
-	gainNode.gain.value = 0.1;
+	gainNode.gain.value = 0.5;
 	gainNode.connect(context.destination);
 }
 
@@ -114,7 +132,8 @@ initSamples(window.context);
 
 
 
-
+// ENGINEERED CODE ABOVE
+// QUICK HACKS BELOW
 
 var loopLength = (60.0/120.0) * 4.0; // 4 beats @ 120bpm
 console.log("loopLength", loopLength);
@@ -170,9 +189,10 @@ setInterval(function tick() {
 }, tickRate);
 
 document.addEventListener('keydown', function (ev) {
-	console.log('key ' + ev.keyCode);
+	var asciiCode = ev.keyCode - 65 + 97;
+	var ascii = String.fromCharCode(asciiCode);
+	// console.log('key ' + ev.keyCode, 'asciiCode ' + asciiCode);
 	window.ev = ev;
-	var ascii = String.fromCharCode(ev.keyCode - 65 + 97);
 	switch (ev.keyCode) {
 	case 32: // spacebar
 		looping = !looping;
@@ -198,3 +218,49 @@ function addEighthNoteHats() {
 	}
 }
 addEighthNoteHats();
+
+
+// Let's UI!
+
+function onClickLetter(ev) {
+	var letter = ev.target.id.replace('key-', '');
+	sampleMap[letter].play();
+}
+
+function initUI() {
+	var container = document.getElementById('letters');
+	var prototype = document.querySelector('.letter');
+	prototype.remove();
+	for (var key in sampleMap) {
+		if (!sampleMap.hasOwnProperty(key)) continue;
+		
+		var clone = prototype.cloneNode(false);
+		clone.id = 'key-' + key;
+		clone.textContent = key;
+		clone.onclick = onClickLetter;
+
+		sampleMap[key].element = clone;
+
+		container.appendChild(clone);
+	}
+}
+
+function onSamplesLoaded() {
+	initUI();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

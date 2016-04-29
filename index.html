@@ -2,9 +2,32 @@
 <html>
 <head>
 	<title>bad timing</title>
-
+	<link rel="stylesheet" href="animate.min.css">
+	<style type="text/css">
+		body {
+			font-family:Helvetica,Arial,sans-serif;
+		}
+		#letters {
+			background-color: bisque;
+			display: inline-block;
+		}
+		.letter {
+			display: inline-block;
+			margin: 5px;
+			background-color: salmon;
+			color: white;
+			text-align: center;
+			padding: 20px 0;
+			width: 60px;
+		}
+	</style>
 </head>
 <body>
+	<div id="letters">
+		<div class="letter">
+			a
+		</div>
+	</div>
 	<dl>
 		<dt>asdfghjk</dt>
 		<dd>notes</dd>
@@ -21,7 +44,11 @@
 		<dt>browser refresh button</dt>
 		<dd>zero-developer-effort reset</dd>
 	</dl>
-	
+
+<!--	
+	<script type="text/javascript" src="//code.jquery.com/jquery-1.12.3.min.js"></script>
+	<script type="text/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+-->
 	<script type="text/javascript" src="app.js"></script>
 </body>
 </html>
