@@ -236,13 +236,18 @@ function startLoop() {
 	startTime = context.currentTime;
 	console.log('startTime ' + startTime);
 	looping = true;
-	// tick();
+	tick(); tick(); // calling this a couple times may trigger events at timeInMeasure 0
 	loopInterval = setInterval(tick, tickRate);
 }
 function endLoop() {
 	console.log('endLoop');
 	clearInterval(loopInterval);
 	looping = false;
+	// animations can get stuck when you stop, so kill 'em
+	for (var letter in sampleMap) {
+		if (!sampleMap.hasOwnProperty(letter)) continue;
+		sampleMap[letter].endAnimation();
+	}
 }
 function enqueueSample(ascii, now) {
 	if (now === undefined) now = getTimeInMeasure();
