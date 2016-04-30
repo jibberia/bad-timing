@@ -59,14 +59,16 @@ Sample.prototype.beginAnimation = function() {
 	if (this.element == null) return;
 	// console.log('beginAnimation ' + this.letter);
 
-	this.element.classList.add('wobble');
+	// this.element.classList.add('wobble');
+	this.element.classList.add('shake-chunk');
 };
 
 Sample.prototype.endAnimation = function() {
 	if (this.element == null) return;
 	// console.log('endAnimation ' + this.letter);
 
-	this.element.classList.remove('wobble');
+	// this.element.classList.remove('wobble');
+	this.element.classList.remove('shake-chunk');
 };
 
 function initSamples(context) {
@@ -113,9 +115,11 @@ function initSamples(context) {
 function initAudio() {
 	var AC = window.AudioContext || window.webkitAudioContext;
 	var context = window.context = new AC;
-	var gainNode = window.gainNode = context.createGain();
-	gainNode.gain.value = 0.4;
-	gainNode.connect(context.destination);
+	var gainNode = window.gainNode = context.destination;
+	// var gainNode = window.gainNode = context.createGain();
+	// gainNode.gain.value = 0.4;
+	// gainNode.connect(context.destination);
+
 }
 
 initAudio();
@@ -245,13 +249,12 @@ function enqueueSample(ascii, now) {
 
 	now = quantize(now);
 
-	// TODO RETHINK:
 	// amusing hack to prevent reading & playing this note from the q:
 	setTimeout(function() {
 		var note = {time: now, ascii: ascii, scheduled: false};
 		sampleQ.push(note);
 		console.log('enqueueSample', note, 'when', now);
-	}, tickRate*2);
+	}, (loopLength * 1000) / 4); // this will cause problems with short loopLengths
 }
 function getTimeInMeasure() {
 	return (context.currentTime - startTime) % loopLength;
