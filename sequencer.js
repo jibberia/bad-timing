@@ -349,7 +349,7 @@ function onSamplesLoaded() {
 	initUI();
 }
 
-if (!('console' in window) {
+if (!('console' in window)) {
 	window.console = {
 		log: function() {},
 		error: function() {}
