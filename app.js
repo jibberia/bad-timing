@@ -17,66 +17,57 @@ function Sample(letter, url, buffer) {
 	this.letter = letter;
 	this.url = url;
 	this.buffer = buffer;
-	this.source = context.createBufferSource();
-	this.isPlaying = false;
 	this.element = null;
+	this.initSource();
+}
+
+Sample.prototype.initSource = function() {
+	var source = this.source = context.createBufferSource();
+	source.connect(gainNode);
+	source.buffer = this.buffer;
 }
 
 Sample.prototype.play = function(when) {
-	console.log("play", this, "when", when);
-
-	var self = this;
-	setTimeout(function() {
-		self.wiggle();
-	}, 0);
-
+	console.log('play ' + this.letter + ' when? ' + when);
 	if (this.buffer === null) {
 		console.error("buffer is null; cannot play");
 		return;
 	}
-	if (this.source !== null && this.isPlaying) {
-		console.log(this, "already playing -- return");
-		return;
-		// this.stop();
-	}
-
-	var source = this.source;
-	source.buffer = this.buffer;
-	source.connect(gainNode);
 
 	var self = this;
+	var source = this.source;
+	this.initSource();
+
 	source.onended = function() {
-		self.stop();
+		self.endAnimation();
+		// self.initSource();
 		// console.log(self, "ended");
 	};
 
 	if (when === undefined) {
 		source.start();
+		this.beginAnimation();
 	} else {
 		source.start(when);
-	}
-	this.isPlaying = true;
+		setTimeout(function() {
+			self.beginAnimation();
+		}, when * 1000.0);
+	}	
 }
 
-Sample.prototype.stop = function() {
-	if (this.source === null) {
-		console.error("null audio source");
-		return;
-	}
-	if (!this.isPlaying) {
-		return;
-	}
-	// console.log("stop", this);
-	this.source.stop();
-	this.source = context.createBufferSource();
-	this.isPlaying = false;
+Sample.prototype.beginAnimation = function() {
+	if (this.element == null) return;
+	// console.log('beginAnimation ' + this.letter);
+
+	this.element.classList.add('wobble');
 };
 
-Sample.prototype.wiggle = function() {
+Sample.prototype.endAnimation = function() {
 	if (this.element == null) return;
-	console.log('wiggle ' + this.letter);
-	
-}
+	// console.log('endAnimation ' + this.letter);
+
+	this.element.classList.remove('wobble');
+};
 
 function initSamples(context) {
 	var delay = 0;
@@ -123,7 +114,7 @@ function initAudio() {
 	var AC = window.AudioContext || window.webkitAudioContext;
 	var context = window.context = new AC;
 	var gainNode = window.gainNode = context.createGain();
-	gainNode.gain.value = 0.5;
+	gainNode.gain.value = 0.4;
 	gainNode.connect(context.destination);
 }
 
@@ -132,24 +123,131 @@ initSamples(window.context);
 
 
 
-// ENGINEERED CODE ABOVE
-// QUICK HACKS BELOW
+// Let's Loop!
 
-var loopLength = (60.0/120.0) * 4.0; // 4 beats @ 120bpm
+var numBeats = 8;
+var bpm = 120.0;
+var loopLength = (60.0/bpm) * numBeats;
 console.log("loopLength", loopLength);
 var startTime = 0.0;
 var looping = false;
-var sampleQ = [];
+var tickRate = 25.0;
+var loopInterval = null;
+var sampleQ = []; // not really a queue
 
+function addMetronome() {
+	var n = numBeats * 2;
+	for (var i = 0; i < n; i++) {
+		var t = i * (loopLength / n);
+		// console.log('hat at ' + t);
+		enqueueSample('e', t);
+	}
+}
+addMetronome();
+
+function toggleLoop() {
+	if (looping) {
+		endLoop();
+	} else {
+		startLoop();
+	}
+}
+function tick() {
+	if (!looping) return;
+	
+	var timeInMeasure = getTimeInMeasure();
+
+	// tick() wakes up at timeInMeasure
+	// find samples between timeInMeasure and timeInMeasure + tickRateInSeconds*1.25
+	//     (add 25% time for setTimeout jitter, TODO tune)
+
+	var begin = timeInMeasure;
+	var lookInterval = (tickRate / 1000.0) * 1.25;
+	var end = begin + lookInterval;
+
+	var alsoBegin = -1;
+	var alsoEnd = -1;
+	var reachAround = false;
+	if (end > loopLength) {
+		reachAround = true;
+		alsoBegin = 0;
+		alsoEnd = end - loopLength;
+	}
+
+	// console.log('begin', parseInt(1000.0*begin), 'end', parseInt(1000.0*end),
+	// 	        'alsoBegin', parseInt(1000.0*alsoBegin), 'alsoEnd', parseInt(1000.0*alsoEnd));
+	
+	for (var i = 0; i < sampleQ.length; i++) {
+		var note = sampleQ[i];
+
+		if ((note.time >= begin && note.time <= end) ||
+		    (note.time >= alsoBegin && note.time <= alsoEnd)) {
+
+			var when = note.time - begin;
+			if (reachAround) {
+				when = note.time + loopLength - alsoBegin;
+			}
+
+			// console.log(
+			// 	'note.time',     parseInt(1000.0*note.time),
+			// 	'timeInMeasure', parseInt(1000.0*timeInMeasure),
+			// 	'when',          parseInt(1000.0*when)
+			// 	// 'begin',         parseInt(1000.0*begin),
+			// 	// 'end',           parseInt(1000.0*end)
+			// );
+
+			if (note.scheduled) {
+				// console.log('SKIP, note scheduled', note);
+				continue;
+			}
+
+			sampleMap[note.ascii].play(when);
+
+			// flag as scheduled so we don't try to play it twice
+			// unflag scheduled after tickRate
+			note.scheduled = true;
+			setTimeout(function(note) {
+				note.scheduled = false;
+				// console.log('unscheduled', getNoteLog(note), 'timeInMeasure', parseInt(1000.0*getTimeInMeasure()));
+				logQ();
+			}, tickRate, note);
+		}
+	}
+	logQ();
+}
+function logQ() {
+	q = sampleQ.slice().sort(function(a, b) { return a.time > b.time })
+	var msg = '';
+	for (var i = 0; i < q.length; i++) {
+		var note = q[i];
+		msg += getNoteLog(note) + ', ';
+	}
+	console.log(msg.substr(0, msg.length-2));
+}
+function getNoteLog(note) {
+	return '[' + note.ascii + ' ' + parseInt(1000.0*note.time) + (note.scheduled ? ' S':'') + ']';
+}
 function startLoop() {
 	startTime = context.currentTime;
+	console.log('startTime ' + startTime);
 	looping = true;
+	// tick();
+	loopInterval = setInterval(tick, tickRate);
+}
+function endLoop() {
+	console.log('endLoop');
+	clearInterval(loopInterval);
+	looping = false;
 }
 function enqueueSample(ascii, now) {
 	if (now === undefined) now = getTimeInMeasure();
+
+	now = quantize(now);
+
+	// TODO RETHINK:
 	// amusing hack to prevent reading & playing this note from the q:
 	setTimeout(function() {
-		var note = {time: now, ascii: ascii};
+		var note = {time: now, ascii: ascii, scheduled: false};
 		sampleQ.push(note);
 		console.log(note);
 	}, tickRate*2);
@@ -159,7 +257,6 @@ function getTimeInMeasure() {
 }
 function clearLoop() {
 	sampleQ = [];
-	addEighthNoteHats();
 }
 function undo() {
 	sampleQ.pop();
@@ -167,26 +264,28 @@ function undo() {
 }
 function quantize(noteTime) {
 	var sixteenth = loopLength / 16.0;
-	var lower = parseInt(noteTime / sixteenth);
-}
-var tickRate = 25.0;
-setInterval(function tick() {
-	if (!looping) return;
-	var measureTime = getTimeInMeasure();
-	console.log(measureTime);
-	for (var i = 0; i < sampleQ.length; i++) {
-		var note = sampleQ[i];
+	var beatNumber = parseInt(noteTime / sixteenth);
+	var lastNoteTime = beatNumber * sixteenth;
+	var nextNoteTime = lastNoteTime + sixteenth;
+	var halfBeat = (nextNoteTime - lastNoteTime) / 2.0;
 
-		// TODO this is off
-		var begin = Math.max(measureTime - (tickRate/1000.0), 0);
-		if (note.time >= begin && note.time <= measureTime) {
-			console.log('note.time', note.time, 'measureTime', measureTime, 'begin', begin,
-				'note.time-begin', note.time-begin);
-
-			sampleMap[note.ascii].play(note.time-begin);
-		}
+	var newTime;
+	if (noteTime <= lastNoteTime + halfBeat) {
+		newTime = lastNoteTime;
+	} else {
+		newTime = nextNoteTime;
 	}
-}, tickRate);
+
+	// console.log(
+	// 	'noteTime', noteTime,
+	// 	'newTime', newTime,
+	// 	'beatNumber', beatNumber,
+	// 	'lastNoteTime', lastNoteTime,
+	// 	'nextNoteTime', nextNoteTime
+	// );
+
+	return newTime;
+}
 
 document.addEventListener('keydown', function (ev) {
 	var asciiCode = ev.keyCode - 65 + 97;
@@ -195,13 +294,16 @@ document.addEventListener('keydown', function (ev) {
 	window.ev = ev;
 	switch (ev.keyCode) {
 	case 32: // spacebar
-		looping = !looping;
+		toggleLoop();
 		return;
 	case 192: // `
 		clearLoop();
 		break;
 	case 188: // ,
 		undo();
+		break;
+	case 191: // /
+		addMetronome();
 		break;
 	}
 	if (!(ascii in sampleMap)) return;
@@ -211,14 +313,6 @@ document.addEventListener('keydown', function (ev) {
 		enqueueSample(ascii);
 	}
 });
-
-function addEighthNoteHats() {
-	for (var i = 0; i < 8; i++) {
-		enqueueSample('e', i * (loopLength / 8.0));
-	}
-}
-addEighthNoteHats();
-
 
 // Let's UI!
 
