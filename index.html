@@ -17,7 +17,13 @@
 			color: white;
 			text-align: center;
 			padding: 20px 0;
-			width: 60px;
+			width: 76px;
+			font-size: 28pt;
+		}
+		button {
+			padding: 1em;
+			font-size: 2em;
+			margin-right: 1em;
 		}
 	</style>
 	<link rel="stylesheet" type="text/css" href="animate.min.css">
@@ -28,10 +34,16 @@
 			a
 		</div>
 	</div>
+
+	<br>
+	<button onclick="toggleLoop()">Play / Pause</button>
+	<button onclick="undo()">Undo</button>
+	<button onclick="clearLoop()">Clear Loop</button>
+
 	<h3>Tutorial</h3>
 	<ol>
-		<li>Press spacebar</li>
-		<li>Type or click the above keys</li>
+		<li>Press space bar or click Play / Pause</li>
+		<li>Type or click the above keys to make a sequence -- you get 16 eighth notes!</li>
 		<li>Comma (,) undoes your last note</li>
 		<li>Backtick (`) clears the loop</li>
 	</ol>
@@ -64,6 +76,15 @@
 	<script type="text/javascript" src="//code.jquery.com/jquery-1.12.3.min.js"></script>
 	<script type="text/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 -->
+	<script type="text/javascript" src="fastclick.js"></script>
+	<script type="text/javascript">
+		// init fastclick
+		if ('addEventListener' in document) {
+		    document.addEventListener('DOMContentLoaded', function() {
+		        FastClick.attach(document.body);
+		    }, false);
+		}
+	</script>
 	<script type="text/javascript" src="sequencer.js"></script>
 </body>
 </html>

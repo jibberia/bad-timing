@@ -146,6 +146,7 @@ function addMetronome() {
 addMetronome();
 
 function toggleLoop() {
+	console.log('toggleLoop');
 	if (looping) {
 		endLoop();
 	} else {
@@ -249,7 +250,7 @@ function enqueueSample(ascii, now) {
 	setTimeout(function() {
 		var note = {time: now, ascii: ascii, scheduled: false};
 		sampleQ.push(note);
-		console.log(note);
+		console.log('enqueueSample', note, 'when', now);
 	}, tickRate*2);
 }
 function getTimeInMeasure() {
@@ -296,7 +297,7 @@ document.addEventListener('keydown', function (ev) {
 	case 32: // spacebar
 		toggleLoop();
 		return;
-	case 192: // `
+	case 192: // `toggleLoop
 		clearLoop();
 		break;
 	case 188: // ,
@@ -306,19 +307,24 @@ document.addEventListener('keydown', function (ev) {
 		addMetronome();
 		break;
 	}
-	if (!(ascii in sampleMap)) return;
 
+	if (ascii in sampleMap) {
+		onPressyClickyTappy(ascii);
+	}
+});
+
+function onPressyClickyTappy(ascii) {
 	sampleMap[ascii].play();
 	if (looping) {
 		enqueueSample(ascii);
 	}
-});
+}
 
 // Let's UI!
 
 function onClickLetter(ev) {
-	var letter = ev.target.id.replace('key-', '');
-	sampleMap[letter].play();
+	var ascii = ev.target.id.replace('key-', '');
+	onPressyClickyTappy(ascii);
 }
 
 function initUI() {
