@@ -340,7 +340,12 @@ function initUI() {
 		var clone = prototype.cloneNode(false);
 		clone.id = 'key-' + key;
 		clone.textContent = key;
-		clone.onclick = onClickLetter;
+		
+		if ('ontouchstart' in clone) {
+			clone.ontouchstart = onClickLetter;
+		} else {
+			clone.onclick = onClickLetter;
+		}
 
 		sampleMap[key].element = clone;
 
