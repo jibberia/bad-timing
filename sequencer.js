@@ -18,32 +18,32 @@ var sampleMap = {
 var sampleMap = {
 	'1': 'samples/hihat-quiet.mp3', // for metronome
 
-	'q': "samples/badtiming02/BAD TIMING MIX 2 VOCAL SAMPLES_02-07.mp3",
-	'w': "samples/badtiming02/BAD TIMING MIX 2 VOCAL SAMPLES_02-08.mp3",
-	'e': "samples/badtiming02/BAD TIMING MIX 2 VOCAL SAMPLES_02-11.mp3",
-	'r': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-101.mp3",
-	't': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-103.mp3",
-	'y': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-105.mp3",
-	'u': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-44.mp3",
-	'i': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-48.mp3",
-	'o': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-52.mp3",
-	'p': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-62.mp3",
-	'a': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-70.mp3",
-	's': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-74.mp3",
-	'd': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-89.mp3",
-	'f': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-93.mp3",
-	'g': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-97.mp3",
-	'h': "samples/badtiming02/breaks.mp3",
-	'j': "samples/badtiming02/by.mp3",
-	'k': "samples/badtiming02/gtr lick.mp3",
-	'l': "samples/badtiming02/gtr pick 1.mp3",
-	'z': "samples/badtiming02/i know i know 1.mp3",
-	'x': "samples/badtiming02/i know it's bad timin.mp3",
-	'c': "samples/badtiming02/lose cuz i took a chance.mp3",
-	'v': "samples/badtiming02/our radio.mp3",
-	'b': "samples/badtiming02/watch me dance.mp3",
-	'n': "samples/badtiming02/ways.mp3",
-	'm': "samples/badtiming02/yeah yeah.mp3"
+	'q': 'samples/badtiming03/badtiming-26-0.mp3' ,
+	'w': 'samples/badtiming03/badtiming-26-1.mp3' ,
+	'e': 'samples/badtiming03/badtiming-26-2.mp3' ,
+	'r': 'samples/badtiming03/badtiming-26-3.mp3' ,
+	't': 'samples/badtiming03/badtiming-26-4.mp3' ,
+	'y': 'samples/badtiming03/badtiming-26-5.mp3' ,
+	'u': 'samples/badtiming03/badtiming-26-6.mp3' ,
+	'i': 'samples/badtiming03/badtiming-26-7.mp3' ,
+	'o': 'samples/badtiming03/badtiming-26-8.mp3' ,
+	'p': 'samples/badtiming03/badtiming-26-9.mp3' ,
+	'a': 'samples/badtiming03/badtiming-26-10.mp3',
+	's': 'samples/badtiming03/badtiming-26-11.mp3',
+	'd': 'samples/badtiming03/badtiming-26-12.mp3',
+	'f': 'samples/badtiming03/badtiming-26-13.mp3',
+	'g': 'samples/badtiming03/badtiming-26-14.mp3',
+	'h': 'samples/badtiming03/badtiming-26-15.mp3',
+	'j': 'samples/badtiming03/badtiming-26-16.mp3',
+	'k': 'samples/badtiming03/badtiming-26-17.mp3',
+	'l': 'samples/badtiming03/badtiming-26-18.mp3',
+	'z': 'samples/badtiming03/badtiming-26-19.mp3',
+	'x': 'samples/badtiming03/badtiming-26-20.mp3',
+	'c': 'samples/badtiming03/badtiming-26-21.mp3',
+	'v': 'samples/badtiming03/badtiming-26-22.mp3',
+	'b': 'samples/badtiming03/badtiming-26-23.mp3',
+	'n': 'samples/badtiming03/badtiming-26-24.mp3',
+	'm': 'samples/badtiming03/badtiming-26-25.mp3'
 
 	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-13.mp3",
 	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-15.mp3",
@@ -137,13 +137,13 @@ Sample.prototype.play = function(when) {
 	}	
 }
 
-Sample.prototype.beginAnimation = function() { return;
+Sample.prototype.beginAnimation = function() {// return;
 	if (this.element == null) return;
 	// console.log('beginAnimation ' + this.letter);
 	this.element.classList.add('shake-chunk');
 };
 
-Sample.prototype.endAnimation = function() { return;
+Sample.prototype.endAnimation = function() {// return;
 	if (this.element == null) return;
 	// console.log('endAnimation ' + this.letter);
 	this.element.classList.remove('shake-chunk');
@@ -480,7 +480,9 @@ function initUi() {
 - test on windows; account: IEUser / Passw0rd!
 - fix on PC iPad
 x disallow zoom
-- fix stuck animations!
+x fix stuck animations!
+- record toggle
+- metronome toggle
 */
 
 
