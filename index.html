@@ -10,6 +10,13 @@
 			background-color: bisque;
 			display: inline-block;
 			text-align: center;
+
+			/* disallow selection */
+			-moz-user-select: -moz-none;
+			-khtml-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
 		}
 		.letter {
 			display: inline-block;
@@ -21,6 +28,13 @@
 			width: 76px;
 			font-size: 28pt;
 			cursor: pointer;
+
+			/* disallow selection */
+			-moz-user-select: -moz-none;
+			-khtml-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
 		}
 		.letter.disabled {
 			cursor: default;
