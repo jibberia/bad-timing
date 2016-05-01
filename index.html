@@ -9,6 +9,7 @@
 		#letters {
 			background-color: bisque;
 			display: inline-block;
+			text-align: center;
 		}
 		.letter {
 			display: inline-block;
@@ -19,6 +20,13 @@
 			padding: 20px 0;
 			width: 76px;
 			font-size: 28pt;
+			cursor: pointer;
+		}
+		.letter.disabled {
+			cursor: default;
+		}
+		.disabled {
+			background-color: papayawhip; /* dessert */
 		}
 		button {
 			padding: 1em;
@@ -31,18 +39,20 @@
 </head>
 <body>
 	<div id="letters">
-		<!-- <div class="letter animated"> -->
+	</div>
+<!-- 	<div id="letters">
 		<div class="letter shake-constant">
 			a
 		</div>
 	</div>
-
-	<h1>code word: foxen</h1>
+ -->
 
 	<br><br>
 	<button onclick="toggleLoop()">Play / Pause</button>
 	<button onclick="undo()">Undo</button>
 	<button onclick="clearLoop()">Clear Loop</button>
+
+	<h1>code word: grackles</h1>
 
 	<h3>Instructions</h3>
 	<ol>

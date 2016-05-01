@@ -334,34 +334,50 @@ function onClickLetter(ev) {
 	var ascii = ev.target.id.replace('key-', '');
 	onPressyClickyTappy(ascii);
 }
-
-function initUI() {
+function onSamplesLoaded() {
+	initUi();
+}
+function addListenerToKey(el) {
+	if ('ontouchstart' in el) {
+		el.ontouchstart = onClickLetter;
+	} else {
+		el.onclick = onClickLetter;
+	}
+}
+function initUi() {
+	var keyboard = [
+		['q','w','e','r','t','y','u','i','o','p'],
+		['a','s','d','f','g','h','j','k','l'],
+		['z','x','c','v','b','n','m']
+	];
 	var container = document.getElementById('letters');
-	var prototype = document.querySelector('.letter');
-	prototype.remove();
-	for (var key in sampleMap) {
-		if (!sampleMap.hasOwnProperty(key)) continue;
-		
-		var clone = prototype.cloneNode(false);
-		clone.id = 'key-' + key;
-		clone.textContent = key;
-		
-		if ('ontouchstart' in clone) {
-			clone.ontouchstart = onClickLetter;
-		} else {
-			clone.onclick = onClickLetter;
+	for (var ri=0; ri<keyboard.length; ri++) {
+		var row = document.createElement('div');
+		row.classList.add('row');
+		keyRow = keyboard[ri];
+		for (var ki=0; ki<keyRow.length; ki++) {
+			var key = keyRow[ki];
+			
+			var el = document.createElement('div');
+			el.className = 'letter shake-constant';
+			el.id = 'key-' + key;
+			el.textContent = key;
+
+			if (key in sampleMap) {
+				sampleMap[key].element = el;
+				addListenerToKey(el);
+			} else {
+				el.classList.add('disabled');
+			}
+			
+			row.appendChild(el);
 		}
-
-		sampleMap[key].element = clone;
-
-		container.appendChild(clone);
+		container.appendChild(row);
 	}
 }
 
-function onSamplesLoaded() {
-	initUI();
-}
 
+// shim console
 if (!('console' in window)) {
 	window.console = {
 		log: function() {},
