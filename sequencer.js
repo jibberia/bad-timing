@@ -1,3 +1,4 @@
+/*
 var sampleMap = {
 	'a': 'samples/a.mp3',
 	's': 'samples/s.mp3',
@@ -12,12 +13,91 @@ var sampleMap = {
 	'w': 'samples/snare.mp3',
 	'e': 'samples/hihat.mp3'
 };
+*/
 
+var sampleMap = {
+	'1': 'samples/hihat-quiet.mp3', // for metronome
+
+	'q': "samples/badtiming02/BAD TIMING MIX 2 VOCAL SAMPLES_02-07.mp3",
+	'w': "samples/badtiming02/BAD TIMING MIX 2 VOCAL SAMPLES_02-08.mp3",
+	'e': "samples/badtiming02/BAD TIMING MIX 2 VOCAL SAMPLES_02-11.mp3",
+	'r': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-101.mp3",
+	't': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-103.mp3",
+	'y': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-105.mp3",
+	'u': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-44.mp3",
+	'i': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-48.mp3",
+	'o': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-52.mp3",
+	'p': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-62.mp3",
+	'a': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-70.mp3",
+	's': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-74.mp3",
+	'd': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-89.mp3",
+	'f': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-93.mp3",
+	'g': "samples/badtiming02/BAD TIMING MIX 2. INSTRUMENTAL _02-97.mp3",
+	'h': "samples/badtiming02/breaks.mp3",
+	'j': "samples/badtiming02/by.mp3",
+	'k': "samples/badtiming02/gtr lick.mp3",
+	'l': "samples/badtiming02/gtr pick 1.mp3",
+	'z': "samples/badtiming02/i know i know 1.mp3",
+	'x': "samples/badtiming02/i know it's bad timin.mp3",
+	'c': "samples/badtiming02/lose cuz i took a chance.mp3",
+	'v': "samples/badtiming02/our radio.mp3",
+	'b': "samples/badtiming02/watch me dance.mp3",
+	'n': "samples/badtiming02/ways.mp3",
+	'm': "samples/badtiming02/yeah yeah.mp3"
+
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-13.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-15.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-17.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-19.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-21.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-23.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-25.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-27.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-29.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-31.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-33.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-35.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-37.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-39.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-43.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-44.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-62.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-64.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-66.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-68.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-70.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-72.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-74.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-76.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-80.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-81.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-83.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-89.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-90.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-93.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-94.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-95.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-97.mp3",
+	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-99.mp3",
+	// "samples/badtiming01/VERSE/VOX/breaks.mp3",
+	// "samples/badtiming01/VERSE/VOX/by.mp3",
+	// "samples/badtiming01/VERSE/VOX/dance.mp3",
+	// "samples/badtiming01/VERSE/VOX/have to get.mp3",
+	// "samples/badtiming01/VERSE/VOX/i dont wanna lie.mp3",
+	// "samples/badtiming01/VERSE/VOX/leave us with the.mp3",
+	// "samples/badtiming01/VERSE/VOX/lose cuz i took a chance.mp3",
+	// "samples/badtiming01/VERSE/VOX/mess.mp3",
+	// "samples/badtiming01/VERSE/VOX/our radio.mp3",
+	// "samples/badtiming01/VERSE/VOX/out of this.mp3",
+	// "samples/badtiming01/VERSE/VOX/watch me dance.mp3",
+	// "samples/badtiming01/VERSE/VOX/ways.mp3",
+}
 function Sample(letter, url, buffer) {
 	this.letter = letter;
 	this.url = url;
 	this.buffer = buffer;
 	this.element = null;
+	this.animationTimeout = null;
 	this.initSource();
 }
 
@@ -28,17 +108,17 @@ Sample.prototype.initSource = function() {
 }
 
 Sample.prototype.play = function(when) {
-	console.log('play ' + this.letter + ' when? ' + when);
-	if (this.buffer === null) {
-		console.error("buffer is null; cannot play");
-		return;
-	}
+	// console.log('play ' + this.letter + ' when? ' + when);
+	// if (this.buffer === null) {
+	// 	console.error("buffer is null; cannot play");
+	// 	return;
+	// }–––
 
 	var self = this;
 	var source = this.source;
 	this.initSource();
 
-	source.onended = function() {
+	source.onended = function sourceOnEnded() {
 		self.endAnimation();
 		// self.initSource();
 		// console.log(self, "ended");
@@ -49,26 +129,25 @@ Sample.prototype.play = function(when) {
 		this.beginAnimation();
 	} else {
 		source.start(when);
-		setTimeout(function() {
+		clearTimeout(this.animationTimeout);
+		this.animationTimeout = setTimeout(function beginAnimationTimeout() {
+			// console.log('timeout beginAnimation...');
 			self.beginAnimation();
 		}, when * 1000.0);
 	}	
 }
 
-Sample.prototype.beginAnimation = function() {
+Sample.prototype.beginAnimation = function() { return;
 	if (this.element == null) return;
 	// console.log('beginAnimation ' + this.letter);
-
-	// this.element.classList.add('wobble');
 	this.element.classList.add('shake-chunk');
 };
 
-Sample.prototype.endAnimation = function() {
+Sample.prototype.endAnimation = function() { return;
 	if (this.element == null) return;
 	// console.log('endAnimation ' + this.letter);
-
-	// this.element.classList.remove('wobble');
 	this.element.classList.remove('shake-chunk');
+	clearTimeout(this.animationTimeout);
 };
 
 function initSamples(context) {
@@ -78,18 +157,18 @@ function initSamples(context) {
 	for (var letter in sampleMap) {
 		if (!sampleMap.hasOwnProperty(letter)) continue;
 
-		setTimeout(function(letter) {
+		setTimeout(function doSampleXHR(letter) {
 			var path = sampleMap[letter];
 
 			var request = new XMLHttpRequest();
 			request.open('GET', path, true);
 			request.responseType = 'arraybuffer';
 
-			request.onload = function(ev) {
+			request.onload = function requestOnloadCb(ev) {
 				// console.log(ev);
 				// console.log(letter, request.response);
 				context.decodeAudioData(request.response,
-					function(audioData) {
+					function decodeAudioDataCb(audioData) {
 						// console.log("successfully decoded", path);
 						var sample = new Sample(letter, path, audioData);
 						// console.log(audioData);
@@ -130,7 +209,7 @@ initSamples(window.context);
 // Let's Loop!
 
 var numBeats = 8;
-var bpm = 120.0;
+var bpm = 100.0;
 var loopLength = (60.0/bpm) * numBeats;
 console.log("loopLength", loopLength);
 var startTime = 0.0;
@@ -144,7 +223,7 @@ function addMetronome() {
 	for (var i = 0; i < n; i++) {
 		var t = i * (loopLength / n);
 		// console.log('hat at ' + t);
-		enqueueSample('e', t);
+		enqueueSample('1', t);
 	}
 }
 addMetronome();
@@ -211,17 +290,17 @@ function tick() {
 			// flag as scheduled so we don't try to play it twice
 			// unflag scheduled after tickRate
 			note.scheduled = true;
-			setTimeout(function(note) {
+			setTimeout(function unscheduleNoteTimeout(note) {
 				note.scheduled = false;
 				// console.log('unscheduled', getNoteLog(note), 'timeInMeasure', parseInt(1000.0*getTimeInMeasure()));
-				logQ();
+				// logQ();
 			}, tickRate, note);
 		}
 	}
-	logQ();
+	// logQ();
 }
 function logQ() {
-	q = sampleQ.slice().sort(function(a, b) { return a.time > b.time })
+	q = sampleQ.slice().sort(function(a, b) { return a.time > b.time });
 	var msg = '';
 	for (var i = 0; i < q.length; i++) {
 		var note = q[i];
@@ -244,10 +323,12 @@ function endLoop() {
 	clearInterval(loopInterval);
 	looping = false;
 	// animations can get stuck when you stop, so kill 'em
-	for (var letter in sampleMap) {
-		if (!sampleMap.hasOwnProperty(letter)) continue;
-		sampleMap[letter].endAnimation();
-	}
+	setTimeout(function unstickAnimationTimeout() {
+		for (var letter in sampleMap) {
+			if (!sampleMap.hasOwnProperty(letter)) continue;
+			sampleMap[letter].endAnimation();
+		}
+	}, tickRate);
 }
 function enqueueSample(ascii, now) {
 	if (now === undefined) now = getTimeInMeasure();
@@ -255,7 +336,7 @@ function enqueueSample(ascii, now) {
 	now = quantize(now);
 
 	// amusing hack to prevent reading & playing this note from the q:
-	setTimeout(function() {
+	setTimeout(function enqueueSampleTimeout() {
 		var note = {time: now, ascii: ascii, scheduled: false};
 		sampleQ.push(note);
 		console.log('enqueueSample', note, 'when', now);
@@ -296,7 +377,7 @@ function quantize(noteTime) {
 	return newTime;
 }
 
-document.addEventListener('keydown', function (ev) {
+document.addEventListener('keydown', function onKeydownEvent(ev) {
 	var asciiCode = ev.keyCode - 65 + 97;
 	var ascii = String.fromCharCode(asciiCode);
 	// console.log('key ' + ev.keyCode, 'asciiCode ' + asciiCode);
@@ -304,16 +385,17 @@ document.addEventListener('keydown', function (ev) {
 	switch (ev.keyCode) {
 	case 32: // spacebar
 		toggleLoop();
-		return;
+		ev.preventDefault();
+		return false;
 	case 192: // `toggleLoop
 		clearLoop();
-		break;
+		return;
 	case 188: // ,
 		undo();
-		break;
+		return;
 	case 191: // /
 		addMetronome();
-		break;
+		return;
 	}
 
 	if (ascii in sampleMap) {
@@ -377,7 +459,8 @@ function initUi() {
 
 	// don't allow buttons to take focus
 	for (button in document.querySelectorAll('button')) {
-		button.onclick = function() {
+		button.onclick = function(ev) {
+			ev.preventDefault();
 			return false;
 		}
 	}
@@ -385,14 +468,20 @@ function initUi() {
 
 
 // shim console
-if (!('console' in window)) {
+// nah, force-disable console instead!
+// if (!('console' in window)) {
 	window.console = {
 		log: function() {},
 		error: function() {}
 	}
-}
+// }
 
-
+/* TODO
+- test on windows; account: IEUser / Passw0rd!
+- fix on PC iPad
+x disallow zoom
+- fix stuck animations!
+*/
 
 
 
