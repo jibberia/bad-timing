@@ -269,7 +269,7 @@ function clearLoop() {
 }
 function undo() {
 	sampleQ.pop();
-	console.log(sampleQ);
+	logQ();
 }
 function quantize(noteTime) {
 	var sixteenth = loopLength / 16.0;
@@ -373,6 +373,13 @@ function initUi() {
 			row.appendChild(el);
 		}
 		container.appendChild(row);
+	}
+
+	// don't allow buttons to take focus
+	for (button in document.querySelectorAll('button')) {
+		button.onclick = function() {
+			return false;
+		}
 	}
 }
 
