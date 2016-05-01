@@ -44,53 +44,6 @@ var sampleMap = {
 	'b': 'samples/badtiming03/badtiming-26-23.mp3',
 	'n': 'samples/badtiming03/badtiming-26-24.mp3',
 	'm': 'samples/badtiming03/badtiming-26-25.mp3'
-
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-13.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-15.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-17.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-19.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-21.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-23.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-25.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-27.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-29.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-31.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-33.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-35.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-37.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-39.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-43.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-44.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-62.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-64.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-66.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-68.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-70.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-72.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-74.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-76.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-80.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-81.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-83.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-89.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-90.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-93.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-94.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-95.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-97.mp3",
-	// "samples/badtiming01/VERSE/INST/BAD TIMING MIX 2. INSTRUMENTAL _02-99.mp3",
-	// "samples/badtiming01/VERSE/VOX/breaks.mp3",
-	// "samples/badtiming01/VERSE/VOX/by.mp3",
-	// "samples/badtiming01/VERSE/VOX/dance.mp3",
-	// "samples/badtiming01/VERSE/VOX/have to get.mp3",
-	// "samples/badtiming01/VERSE/VOX/i dont wanna lie.mp3",
-	// "samples/badtiming01/VERSE/VOX/leave us with the.mp3",
-	// "samples/badtiming01/VERSE/VOX/lose cuz i took a chance.mp3",
-	// "samples/badtiming01/VERSE/VOX/mess.mp3",
-	// "samples/badtiming01/VERSE/VOX/our radio.mp3",
-	// "samples/badtiming01/VERSE/VOX/out of this.mp3",
-	// "samples/badtiming01/VERSE/VOX/watch me dance.mp3",
-	// "samples/badtiming01/VERSE/VOX/ways.mp3",
 }
 function Sample(letter, url, buffer) {
 	this.letter = letter;
@@ -217,13 +170,15 @@ var looping = false;
 var tickRate = 25.0;
 var loopInterval = null;
 var sampleQ = []; // not really a queue
+var useMetronome = true;
+var isRecording = true;
 
 function addMetronome() {
 	var n = numBeats * 2;
 	for (var i = 0; i < n; i++) {
 		var t = i * (loopLength / n);
 		// console.log('hat at ' + t);
-		enqueueSample('1', t);
+		enqueueSample('1', t, true);
 	}
 }
 addMetronome();
@@ -236,6 +191,15 @@ function toggleLoop() {
 		startLoop();
 	}
 }
+function toggleMetronome() {
+	// console.log('toggleMetronome');
+	useMetronome = !useMetronome;
+	console.log("use metronome?", useMetronome);
+}
+function toggleRecording() {
+	isRecording = !isRecording;
+}
+
 function tick() {
 	if (!looping) return;
 	
@@ -285,6 +249,10 @@ function tick() {
 				continue;
 			}
 
+			if (!useMetronome && note.isMetronome) {
+				continue;
+			}
+
 			sampleMap[note.ascii].play(when);
 
 			// flag as scheduled so we don't try to play it twice
@@ -330,16 +298,21 @@ function endLoop() {
 		}
 	}, tickRate);
 }
-function enqueueSample(ascii, now) {
+function enqueueSample(ascii, now, isMetronome) {
+	if (!isRecording && (isMetronome === undefined || isMetronome == false)) {
+		// return if we're not recording, or if this is not a metronome
+		return;
+	}
 	if (now === undefined) now = getTimeInMeasure();
+	if (isMetronome === undefined) isMetronome = false;
 
 	now = quantize(now);
 
 	// amusing hack to prevent reading & playing this note from the q:
 	setTimeout(function enqueueSampleTimeout() {
-		var note = {time: now, ascii: ascii, scheduled: false};
+		var note = {time: now, ascii: ascii, scheduled: false, isMetronome: isMetronome};
 		sampleQ.push(note);
-		console.log('enqueueSample', note, 'when', now);
+		console.log('enqueueSample', note);
 	}, (loopLength * 1000) / 4); // this will cause problems with short loopLengths
 }
 function getTimeInMeasure() {
@@ -393,8 +366,12 @@ document.addEventListener('keydown', function onKeydownEvent(ev) {
 	case 188: // ,
 		undo();
 		return;
-	case 191: // /
-		addMetronome();
+	// case 191: // /
+	// 	addMetronome();
+	// 	return;
+	}
+
+	if (ev.altKey || ev.metaKey || ev.ctrlKey) {
 		return;
 	}
 
@@ -405,7 +382,7 @@ document.addEventListener('keydown', function onKeydownEvent(ev) {
 
 function onPressyClickyTappy(ascii) {
 	sampleMap[ascii].play();
-	if (looping) {
+	if (looping && isRecording) {
 		enqueueSample(ascii);
 	}
 }
@@ -468,13 +445,12 @@ function initUi() {
 
 
 // shim console
-// nah, force-disable console instead!
-// if (!('console' in window)) {
+if (!('console' in window)) {
 	window.console = {
 		log: function() {},
 		error: function() {}
 	}
-// }
+}
 
 /* TODO
 - test on windows; account: IEUser / Passw0rd!

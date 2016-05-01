@@ -47,6 +47,9 @@
 			font-size: 2em;
 			margin-right: 1em;
 		}
+		#toggles {
+			display: inline-block;
+		}
 	</style>
 	<!-- <link rel="stylesheet" type="text/css" href="animate.min.css"> -->
 	<link rel="stylesheet" type="text/css" href="csshake.min.css">
@@ -57,6 +60,17 @@
 
 	<br><br>
 	<button onclick="toggleLoop()">Play / Pause</button>
+
+	<div id="toggles">
+		<input id="metronome-toggle" type="checkbox" checked="checked" onchange="toggleMetronome()">
+		<label for="metronome-toggle">Metronome</label>
+		<br>
+		<input id="record-toggle" type="checkbox" checked="checked" onchange="toggleRecording()">
+		<label for="record-toggle">Record</label>
+	</div>
+	&nbsp;
+
+	<!-- <br><br> -->
 	<button onclick="undo()">Undo</button>
 	<button onclick="clearLoop()">Clear Loop</button>
 
