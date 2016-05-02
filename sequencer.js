@@ -93,14 +93,15 @@ Sample.prototype.play = function(when) {
 Sample.prototype.beginAnimation = function() {// return;
 	if (this.element == null) return;
 	// console.log('beginAnimation ' + this.letter);
-	this.animationIndex = parseInt(Math.random() * 3) + 1;
-	this.element.classList.add('shake-chunk-' + this.animationIndex);
+	var animationIndex = parseInt(Math.random() * 3) + 1;
+	this.element.classList.add('shake-chunk-' + animationIndex);
 };
 
 Sample.prototype.endAnimation = function() {// return;
 	if (this.element == null) return;
 	// console.log('endAnimation ' + this.letter);
-	this.element.classList.remove('shake-chunk-' + this.animationIndex);
+	this.element.className = this.element.className.replace(/shake-chunk-\d/, '');
+	// this.element.classList.remove('shake-chunk-' + this.animationIndex);
 	clearTimeout(this.animationTimeout);
 };
 
