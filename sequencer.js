@@ -93,13 +93,14 @@ Sample.prototype.play = function(when) {
 Sample.prototype.beginAnimation = function() {// return;
 	if (this.element == null) return;
 	// console.log('beginAnimation ' + this.letter);
-	this.element.classList.add('shake-chunk');
+	this.animationIndex = parseInt(Math.random() * 3) + 1;
+	this.element.classList.add('shake-chunk-' + this.animationIndex);
 };
 
 Sample.prototype.endAnimation = function() {// return;
 	if (this.element == null) return;
 	// console.log('endAnimation ' + this.letter);
-	this.element.classList.remove('shake-chunk');
+	this.element.classList.remove('shake-chunk-' + this.animationIndex);
 	clearTimeout(this.animationTimeout);
 };
 
@@ -283,8 +284,8 @@ function startLoop() {
 	startTime = context.currentTime;
 	console.log('startTime ' + startTime);
 	looping = true;
-	tick(); tick(); // calling this a couple times may trigger events at timeInMeasure 0
 	loopInterval = setInterval(tick, tickRate);
+	tick(); tick(); // calling this a couple times may trigger events at timeInMeasure 0
 }
 function endLoop() {
 	console.log('endLoop');
@@ -406,8 +407,8 @@ function addListenerToKey(el) {
 function initUi() {
 	var keyboard = [
 		['q','w','e','r','t','y','u','i','o','p'],
-		['a','s','d','f','g','h','j','k','l'],
-		['z','x','c','v','b','n','m']
+		  ['a','s','d','f','g','h','j','k','l'],
+		     ['z','x','c','v','b','n','m']
 	];
 	var container = document.getElementById('letters');
 	for (var ri=0; ri<keyboard.length; ri++) {
