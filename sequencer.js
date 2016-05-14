@@ -16,7 +16,7 @@ var sampleMap = {
 */
 
 var sampleMap = {
-	'1': 'samples/hihat-quiet.mp3', // for metronome
+	'1': 'samples/hihat.mp3', // for metronome
 
 	'q': 'samples/badtiming03/badtiming-26-0.mp3' ,
 	'w': 'samples/badtiming03/badtiming-26-1.mp3' ,
@@ -61,12 +61,6 @@ Sample.prototype.initSource = function() {
 }
 
 Sample.prototype.play = function(when) {
-	// console.log('play ' + this.letter + ' when? ' + when);
-	// if (this.buffer === null) {
-	// 	console.error("buffer is null; cannot play");
-	// 	return;
-	// }–––
-
 	var self = this;
 	var source = this.source;
 	this.initSource();
@@ -149,10 +143,10 @@ function initSamples(context) {
 function initAudio() {
 	var AC = window.AudioContext || window.webkitAudioContext;
 	var context = window.context = new AC;
-	var gainNode = window.gainNode = context.destination;
-	// var gainNode = window.gainNode = context.createGain();
-	// gainNode.gain.value = 0.4;
-	// gainNode.connect(context.destination);
+	// var gainNode = window.gainNode = context.destination;
+	var gainNode = window.gainNode = context.createGain();
+	gainNode.gain.value = 1.0;
+	gainNode.connect(context.destination);
 
 }
 
@@ -166,7 +160,6 @@ initSamples(window.context);
 var numBeats = 8;
 var bpm = 100.0;
 var loopLength = (60.0/bpm) * numBeats;
-console.log("loopLength", loopLength);
 var startTime = 0.0;
 var looping = false;
 var tickRate = 25.0;
@@ -262,8 +255,6 @@ function tick() {
 			note.scheduled = true;
 			setTimeout(function unscheduleNoteTimeout(note) {
 				note.scheduled = false;
-				// console.log('unscheduled', getNoteLog(note), 'timeInMeasure', parseInt(1000.0*getTimeInMeasure()));
-				// logQ();
 			}, tickRate, note);
 		}
 	}
@@ -322,9 +313,12 @@ function getTimeInMeasure() {
 }
 function clearLoop() {
 	sampleQ = [];
+	addMetronome();
 }
 function undo() {
-	sampleQ.pop();
+	if (sampleQ.length > 16) {
+		sampleQ.pop();
+	}
 	logQ();
 }
 function quantize(noteTime) {
@@ -355,7 +349,7 @@ function quantize(noteTime) {
 document.addEventListener('keydown', function onKeydownEvent(ev) {
 	var asciiCode = ev.keyCode - 65 + 97;
 	var ascii = String.fromCharCode(asciiCode);
-	// console.log('key ' + ev.keyCode, 'asciiCode ' + asciiCode);
+	console.log('key ' + ev.keyCode, 'asciiCode ' + asciiCode);
 	window.ev = ev;
 	switch (ev.keyCode) {
 	case 32: // spacebar
@@ -398,11 +392,11 @@ function onClickLetter(ev) {
 function onSamplesLoaded() {
 	initUi();
 }
-function addListenerToKey(el) {
+function addListener(el, fn) {
 	if ('ontouchstart' in el) {
-		el.ontouchstart = onClickLetter;
+		el.ontouchstart = fn;
 	} else {
-		el.onclick = onClickLetter;
+		el.onclick = fn;
 	}
 }
 function initUi() {
@@ -419,16 +413,15 @@ function initUi() {
 		for (var ki=0; ki<keyRow.length; ki++) {
 			var key = keyRow[ki];
 			
-			var el = document.createElement('div');
+			var el = document.createElement('img');
 			el.className = 'letter shake-constant';
 			el.id = 'key-' + key;
-			el.textContent = key;
+			el.src = 'images/' + key + '.png';
+			// el.textContent = key;
 
 			if (key in sampleMap) {
 				sampleMap[key].element = el;
-				addListenerToKey(el);
-			} else {
-				el.classList.add('disabled');
+				addListener(el, onClickLetter);
 			}
 			
 			row.appendChild(el);
@@ -443,6 +436,24 @@ function initUi() {
 			return false;
 		}
 	}
+
+	// specific buttons
+	var record = document.getElementById("record");
+	addListener(record, toggleRecording);
+
+	var tiger = document.getElementById("tiger");
+
+	var hiHat = document.getElementById("hi-hat");
+	addListener(hiHat, toggleMetronome);
+
+	var undoBtn = document.getElementById("undo");
+	addListener(undoBtn, undo);
+
+	var playPause = document.getElementById("play-pause");
+	addListener(playPause, toggleLoop);
+
+	var reset = document.getElementById("reset");
+	addListener(reset, clearLoop);
 }
 
 
@@ -456,11 +467,12 @@ if (!('console' in window)) {
 
 /* TODO
 - test on windows; account: IEUser / Passw0rd!
-- fix on PC iPad
+? fix on PC iPad
 x disallow zoom
 x fix stuck animations!
-- record toggle
-- metronome toggle
+x record toggle
+x metronome toggle
+- what to do when holding down keys
 */
 
 
