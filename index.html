@@ -3,6 +3,7 @@
 <head>
 	<title>bad timing</title>
 	<link rel="stylesheet" type="text/css" href="reset.css">
+	<link href='https://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
 	<style type="text/css">
 		/* http://meyerweb.com/eric/tools/css/reset/ 
 		   v2.0 | 20110126
@@ -57,7 +58,7 @@
 			BAD TIMING SEQUENCER
 		*/
 		body {
-			font-family:Helvetica,Arial,sans-serif;
+			font-family:'Francois One',Helvetica,Arial,sans-serif;
 			background-color: #E0BC12;
 		}
 		#container {
@@ -67,10 +68,21 @@
 		#title {
 			margin: 25px 0;
 		}
+		#record.off, #hi-hat.off {
+			opacity: 0.1;
+		}
+		.whiskers {
+			visibility: hidden;
+		}
+		.whiskers.visible {
+			visibility: visible;
+		}
 		#letters {
-			/*display: block;*/
 			text-align: center;
 			margin: 25px 0;
+			height: 300px;
+			overflow: hidden;
+			position: relative;
 
 			/* disallow selection */
 			-moz-user-select: -moz-none;
@@ -79,11 +91,16 @@
 			-ms-user-select: none;
 			user-select: none;
 		}
+		#loading {
+			text-align: center;
+			margin-top: 120px;
+			font-size: 28px;
+			color: bisque;
+		}
 		.row {
 			display: inline-block;
 		}
-		.letter, .button img {
-			/*display: inline-block;*/
+		.letter, .buttons img {
 			cursor: pointer;
 
 			/* disallow selection */
@@ -93,14 +110,6 @@
 			-ms-user-select: none;
 			user-select: none;
 		}
-		button {
-			padding: 1em;
-			font-size: 2em;
-			margin-right: 1em;
-		}
-		#toggles {
-			display: inline-block;
-		}
 		.buttons {
 			text-align: center;
 		}
@@ -109,9 +118,42 @@
 			vertical-align: top;
 			text-decoration: none;
 		}
+		.buttons img.down {
+			/*background-color: red;*/
+			/*border-radius: 8px;*/
+		}
 		.buttons .spacer {
 			display: inline-block;
 			width: 100px;
+		}
+		#img-preload {
+			display: none;
+		}
+		.help {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			display: inline-block;
+			opacity: 0.6;
+			text-align: center;
+			background-color: rgba(255, 255, 255, 0.8);
+			padding: 4px;
+			border-radius: 4px;
+			font-size: 14px;
+			visibility: hidden;
+		}
+		.help.big {
+			font-size: 20px;
+			/*border: 4px white solid;*/
+		}
+		#help-key-z {
+			transform: rotate(-5deg);
+		}
+		#help-hi-hat {
+			transform: rotate(3deg);
+		}
+		#help-record {
+			transform: rotate(-3deg);
 		}
 	</style>
 	<link rel="stylesheet" type="text/css" href="csshake.css">
@@ -121,102 +163,83 @@
 	<img id="title" src="images/ex-reyes-bad-timing.png">
 
 	<div class="buttons" id="record-tiger-hi-hat">
-		<img id="record" src="images/record.png">
+		<img id="record" src="images/record.png" width="153" height="64">
 		<span class="spacer"></span>
-		<img id="tiger" src="images/tiger.png">
+		<img id="whiskers-l" class="whiskers" src="images/whiskers-l.png" width="35" height="91">
+		<img id="tiger" src="images/tiger.png" width="88" height="91">
+		<img id="whiskers-r" class="whiskers" src="images/whiskers-r.png" width="28" height="91">
 		<span class="spacer"></span>
-		<img id="hi-hat" src="images/hi-hat.png">
+		<img id="hi-hat" src="images/hi-hat.png" width="150" height="64">
 	</div>
 
-	<!--div class="buttons" id="record-tiger-hi-hat">
-		<a href="#" id="record">
-			<img src="images/record.png">
-		</a>
-		<span class="spacer"></span>
-		<a href="#" id="tiger">
-			<img src="images/tiger.png">
-		</a>
-		<span class="spacer"></span>
-		<a href="#" id="hi-hat">
-			<img src="images/hi-hat.png">
-		</a>		
-	</div-->
+	<div class="help" id="help-record">
+		&larr; toggle<br>
+		recording<br>
+		(when playing)
+	</div>
+
+	<div class="help" id="help-hi-hat">
+		&larr; turn hi-hat<br>
+		metronome on/off
+	</div>
+
 
 	<div id="letters">
+		<div id="loading">
+			(LOADING)
+		</div>
+	</div>
+
+	<div class="help big" id="help-key-z">
+		click, tap, or use<br>
+		your keyboard &rarr;
 	</div>
 
 	<div class="buttons" id="undo-play-pause-reset">
-		<img id="undo" src="images/undo.png">
+		<img id="undo" src="images/undo.png" width="116" height="54" title="Undo: comma key (,)">
 		<span class="spacer"></span>
-		<img id="play-pause" src="images/play-pause.png">
+		<img id="play-pause" src="images/play-pause.png" width="246" height="66" title="Play/Pause: spacebar">
 		<span class="spacer"></span>
-		<img id="reset" src="images/reset.png">
+		<img id="reset" src="images/reset.png" width="110" height="50" title="Reset: backtick key (`)">
 	</div>
 
-	<!--div class="buttons" id="undo-play-pause-reset">
-		<a href="#" id="undo">
-			<img src="images/undo.png">
-		</a>
-		<span class="spacer"></span>
-		<a href="#" id="play-pause">
-			<img src="images/play-pause.png">
-		</a>
-		<span class="spacer"></span>
-		<a href="#" id="reset">
-			<img src="images/reset.png">
-		</a>
-	</div-->
-<!--
-	<br><br>
-	<button onclick="toggleLoop()">Play / Pause</button>
-
-	<div id="toggles">
-		<input id="metronome-toggle" type="checkbox" checked="checked" onchange="toggleMetronome()">
-		<label for="metronome-toggle">Metronome</label>
-		<br><br>
-		<input id="record-toggle" type="checkbox" checked="checked" onchange="toggleRecording()">
-		<label for="record-toggle">Record</label>
+	<div class="help big" id="help-play-pause">
+		^<br>
+		click, tap, or use your<br>
+		spacebar to begin
 	</div>
-	&nbsp;
-
-	<button onclick="undo()">Undo (/)</button>
-	<button onclick="clearLoop()">Clear Loop (`)</button>
-
-	<h1>code word: lemur</h1>
-
-	<h3>Instructions</h3>
-	<ol>
-		<li><b>Turn up the volume!</b> Make sure to take your phone/tablet off silent/vibrate mode.</li>
-		<li>Press space bar or click Play / Pause</li>
-		<li>Type or click the above keys to make a sequence -- you get 16 eighth notes!</li>
-		<li>Uncheck Record to try new sounds over your loop without recording them</li>
-	</ol>
--->
-	<!--h3>Key Command Reference</h3>
-	<dl>
-		<dt>asdfghjk</dt>
-		<dd>notes</dd>
-
-		<dt>qwe</dt>
-		<dd>kick snare hats</dd>
-
-		<dt>,</dt>
-		<dd>undo</dd>
-
-		<dt>`</dt>
-		<dd>clear loop</dd>
-
-		<dt>/</dt>
-		<dd>add hi-hat metronome to your loop</dd>
-
-		<dt>spacebar</dt>
-		<dd>play pause (always recording while playing)</dd>
-
-		<dt>browser refresh button</dt>
-		<dd>zero-developer-effort reset</dd>
-	</dl-->
 
 	<script type="text/javascript" src="sequencer.js"></script>
+
+	<div id="img-preload">
+		<img src="images/a.png">
+		<img src="images/b.png">
+		<img src="images/c.png">
+		<img src="images/d.png">
+		<img src="images/e.png">
+		<img src="images/f.png">
+		<img src="images/g.png">
+		<img src="images/h.png">
+		<img src="images/i.png">
+		<img src="images/j.png">
+		<img src="images/k.png">
+		<img src="images/l.png">
+		<img src="images/m.png">
+		<img src="images/n.png">
+		<img src="images/o.png">
+		<img src="images/p.png">
+		<img src="images/q.png">
+		<img src="images/r.png">
+		<img src="images/s.png">
+		<img src="images/t.png">
+		<img src="images/u.png">
+		<img src="images/v.png">
+		<img src="images/w.png">
+		<img src="images/x.png">
+		<img src="images/y.png">
+		<img src="images/z.png">
+	</div>
+
 </div>
 </body>
 </html>

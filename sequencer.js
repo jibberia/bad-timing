@@ -71,6 +71,8 @@ Sample.prototype.play = function(when) {
 		// console.log(self, "ended");
 	};
 
+	window.gainNode.gain.value = 1.0;
+
 	if (when === undefined) {
 		source.start();
 		this.beginAnimation();
@@ -180,19 +182,34 @@ addMetronome();
 
 function toggleLoop() {
 	console.log('toggleLoop');
+	hideHelp();
+
 	if (looping) {
+		window.gainNode.gain.value = 0.0;
 		endLoop();
 	} else {
+		window.gainNode.gain.value = 1.0;
 		startLoop();
 	}
 }
 function toggleMetronome() {
 	// console.log('toggleMetronome');
 	useMetronome = !useMetronome;
+	if (!useMetronome) {
+		document.getElementById('hi-hat').classList.add('off');
+	} else {
+		document.getElementById('hi-hat').classList.remove('off');
+	}
+
 	console.log("use metronome?", useMetronome);
 }
 function toggleRecording() {
 	isRecording = !isRecording;
+	if (!isRecording) {
+		document.getElementById('record').classList.add('off');
+	} else {
+		document.getElementById('record').classList.remove('off');
+	}
 }
 
 function tick() {
@@ -353,14 +370,17 @@ document.addEventListener('keydown', function onKeydownEvent(ev) {
 	window.ev = ev;
 	switch (ev.keyCode) {
 	case 32: // spacebar
-		toggleLoop();
+		document.getElementById('play-pause').erAction();
+		// toggleLoop();
 		ev.preventDefault();
 		return false;
 	case 192: // `toggleLoop
-		clearLoop();
+		// clearLoop();
+		document.getElementById('reset').erAction();
 		return;
 	case 188: // ,
-		undo();
+		document.getElementById('undo').erAction();
+		// undo();
 		return;
 	// case 191: // /
 	// 	addMetronome();
@@ -394,10 +414,26 @@ function onSamplesLoaded() {
 }
 function addListener(el, fn) {
 	if ('ontouchstart' in el) {
-		el.ontouchstart = fn;
+		el.ontouchstart = el.erAction = fn;
 	} else {
-		el.onclick = fn;
+		el.onclick = el.erAction = fn;
 	}
+}
+function addListenerAndAnimation(el, fn) {
+	var cb = function() {
+		el.classList.add('down');
+		el.src = el.src.replace('images', 'images-inverted');
+		fn();
+		setTimeout(function() {
+			el.classList.remove('down');
+			el.src = el.src.replace('images-inverted', 'images');
+		}, 15);
+	};
+
+	var preload = document.createElement('img');
+	preload.src = el.src.replace('images', 'images-inverted');
+
+	addListener(el, cb);
 }
 function initUi() {
 	var keyboard = [
@@ -429,6 +465,9 @@ function initUi() {
 		container.appendChild(row);
 	}
 
+	// hide loading before computing help text position
+	document.getElementById('loading').style.display = 'none';
+
 	// don't allow buttons to take focus
 	for (button in document.querySelectorAll('button')) {
 		button.onclick = function(ev) {
@@ -436,6 +475,7 @@ function initUi() {
 			return false;
 		}
 	}
+
 
 	// specific buttons
 	var record = document.getElementById("record");
@@ -447,14 +487,67 @@ function initUi() {
 	addListener(hiHat, toggleMetronome);
 
 	var undoBtn = document.getElementById("undo");
-	addListener(undoBtn, undo);
+	addListenerAndAnimation(undoBtn, undo);
 
 	var playPause = document.getElementById("play-pause");
-	addListener(playPause, toggleLoop);
+	addListenerAndAnimation(playPause, toggleLoop);
 
 	var reset = document.getElementById("reset");
-	addListener(reset, clearLoop);
+	addListenerAndAnimation(reset, clearLoop);
+
+
+	// help text
+	var key = document.getElementById('key-z');
+	var helpKeyZ = document.getElementById('help-key-z');
+	var offset = cumulativeOffset(key);
+	helpKeyZ.style.top = (offset.top + key.offsetHeight/4) + 'px';
+	helpKeyZ.style.left = (offset.left - (helpKeyZ.offsetWidth + 10)) + 'px';
+	helpKeyZ.style.visibility = 'visible';
+
+	var helpPlayPause = document.getElementById('help-play-pause');
+	offset = cumulativeOffset(playPause);
+	helpPlayPause.style.top = (offset.top + playPause.offsetHeight + 5) + 'px';
+	helpPlayPause.style.left = (offset.left + 40) + 'px';
+	helpPlayPause.style.visibility = 'visible';
+
+	var helpHiHat = document.getElementById('help-hi-hat');
+	offset = cumulativeOffset(hiHat);
+	helpHiHat.style.top = (offset.top + hiHat.offsetHeight/2) + 'px';
+	helpHiHat.style.left = (offset.left + hiHat.offsetWidth + 15) + 'px';
+	helpHiHat.style.visibility = 'visible';
+
+	var helpRecord = document.getElementById('help-record');
+	offset = cumulativeOffset(record);
+	helpRecord.style.top = (offset.top + record.offsetHeight/3) + 'px';
+	helpRecord.style.left = (offset.left + record.offsetWidth + 15) + 'px';
+	helpRecord.style.visibility = 'visible';
 }
+function hideHelp() {
+	var helps = document.querySelectorAll('.help');
+	for (var i=0; i<helps.length; i++) {
+		helps[i].style.display = 'none';
+	}
+}
+function showHelp() {
+	var helps = document.querySelectorAll('.help');
+	for (var i=0; i<helps.length; i++) {
+		helps[i].style.display = 'inline-block';
+	}
+}
+
+function cumulativeOffset(element) {
+    var top = 0, left = 0;
+    do {
+        top += element.offsetTop  || 0;
+        left += element.offsetLeft || 0;
+        element = element.offsetParent;
+    } while(element);
+
+    return {
+        top: top,
+        left: left
+    };
+};
 
 
 // shim console
