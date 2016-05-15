@@ -69,10 +69,19 @@
 			margin: 0 auto;
 		}
 		#title {
-			margin: 25px 0;
+			margin: 35px 0 25px;
 		}
 		#record.off, #hi-hat.off {
 			opacity: 0.1;
+		}
+		#record, #hi-hat, #undo, #play-pause, #reset {
+			/* disallow selection */
+			-moz-user-select: -moz-none;
+			-khtml-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+
 		}
 		.whiskers {
 			visibility: hidden;
@@ -163,7 +172,7 @@
 		#credits {
 			text-align: right;
 			color: rgba(255,255,255,0.5);
-			margin-top: 50px;
+			margin-top: 1em;
 			margin-right: 1em;
 			font-size: 12px;
 		}

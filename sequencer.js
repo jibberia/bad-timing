@@ -233,7 +233,7 @@ addMetronome();
 
 function toggleLoop() {
 	console.log('toggleLoop');
-	hideHelp();
+	// hideHelp();
 
 	if (looping) {
 		window.gainNode.gain.value = 0.0;
@@ -588,9 +588,45 @@ function initUi() {
 	// window.requestAnimationFrame(function onAnimationFrame() {
 	// 	console.log(volumeAudioProcess.volume);
 	// });
+	
+	setTimeout(fadeOutHelp, 2000);
 }
+
 // oh man i'm really getting careless here...
 window.helpVisible = true;
+window.DEFAULT_HELP_OPACITY = 0.6;
+function fadeOutHelp() {
+	var helps = document.querySelectorAll('.help');
+	var o = 1;
+	for (var i=0; i<helps.length; i++) {
+		if (helps[i].style.opacity == '') {
+			helps[i].style.opacity = window.DEFAULT_HELP_OPACITY;
+		}
+		helps[i].style.opacity = o = helps[i].style.opacity * 0.9;
+	}
+	if (o < 0.1) {
+		hideHelp();
+		window.erhelpscale = window.initialerhelpscale;
+		highlightShowHelp();
+	} else {
+		// call self recursively until help is dim enuf
+		setTimeout(fadeOutHelp, 50);
+	}
+}
+// ...i mean really careless
+window.initialerhelpscale = 15.0;
+window.erhelpscale = window.initialerhelpscale;
+function highlightShowHelp() {
+	var el = document.getElementById('help-bug');
+
+	window.erhelpscale *= 0.9;
+	el.style.transform = 'scale(' + window.erhelpscale + ')';
+	if (window.erhelpscale < 1.1) {
+		el.style.transform = 'scale(1)';
+	} else {
+		setTimeout(highlightShowHelp, 16);
+	}
+}
 function toggleHelp() {
 	window.helpVisible = !window.helpVisible;
 	if (window.helpVisible) {
@@ -606,12 +642,14 @@ function hideHelp() {
 	for (var i=0; i<helps.length; i++) {
 		helps[i].style.display = 'none';
 	}
+	window.helpVisible = false;
 }
 function showHelp() {
 	var hb = document.getElementById('help-bug');
 	hb.textContent = hb.textContent.replace('show', 'hide');
 	var helps = document.querySelectorAll('.help');
 	for (var i=0; i<helps.length; i++) {
+		helps[i].style.opacity = window.DEFAULT_HELP_OPACITY;
 		helps[i].style.display = 'inline-block';
 	}
 }
