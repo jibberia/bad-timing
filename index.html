@@ -60,6 +60,10 @@
 			font-family:'Francois One',Helvetica,Arial,sans-serif;
 			background-color: #E0BC12;
 		}
+		a {
+			text-decoration: none;
+			color: inherit;
+		}
 		#container {
 			width: 960px;
 			margin: 0 auto;
@@ -128,7 +132,7 @@
 		#img-preload {
 			display: none;
 		}
-		.help, #help-bug {
+		.help, #help-bug, #video-bug {
 			position: absolute;
 			top: 0px;
 			left: 0px;
@@ -143,38 +147,24 @@
 		}
 		.help.big {
 			font-size: 20px;
-			/*border: 4px white solid;*/
 		}
 		#help-key-z  { transform: rotate(-5deg); }
 		#help-hi-hat { transform: rotate( 3deg); }
 		#help-record { transform: rotate(-3deg); }
-		#help-bug {
+		#help-bug, #video-bug {
 			cursor: pointer;
 			visibility: visible;
 			margin: 4px 0 0 4px;
-			/*display: none;*/
 		}
-		/*
-		#help-bug {
-			position: absolute;
-			top: 0px;
-			left: 0px;
-			padding: 4px;
-			font-size: 20px;
-			text-align: center;
-			margin: 4px;
-			cursor: pointer;
-
-			display: inline-block;
-			height: 20px;
-			color: rgba(255, 255, 255, 0.6);
-		}*/
-
+		#video-bug {
+			left: 70px;
+		}
 	</style>
 	<link rel="stylesheet" type="text/css" href="csshake.css">
 </head>
 <body>
 <div id="help-bug">hide help</div>
+<a href="https://vimeo.com/166087056" id="video-bug">watch the music video</a>
 <div id="container">
 	<img id="title" src="images/ex-reyes-bad-timing.png">
 
