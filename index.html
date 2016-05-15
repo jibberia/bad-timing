@@ -69,7 +69,7 @@
 			margin: 0 auto;
 		}
 		#title {
-			margin: 35px 0 25px;
+			margin: 40px 0 25px;
 		}
 		#record.off, #hi-hat.off {
 			opacity: 0.1;
@@ -154,8 +154,11 @@
 			background-color: rgba(255, 255, 255, 0.8);
 			padding: 4px;
 			border-radius: 4px;
-			font-size: 14px;
+			font-size: 16px;
 			visibility: hidden;
+		}
+		#help-bug, #video-bug {
+			font-size: 22px;
 		}
 		.help.big {
 			font-size: 20px;
@@ -169,7 +172,7 @@
 			margin: 4px 0 0 4px;
 		}
 		#video-bug {
-			left: 70px;
+			left: 104px;
 		}
 		#credits {
 			text-align: right;
@@ -186,18 +189,18 @@
 </head>
 <body>
 <div id="help-bug">hide help</div>
-<a href="https://vimeo.com/166087056" id="video-bug">watch the music video</a>
+<a href="https://vimeo.com/166087056" id="video-bug">video</a>
 <div id="container">
-	<img id="title" src="images/ex-reyes-bad-timing.png">
+	<img id="title" src="images/ex-reyes-bad-timing.png" title="Ex Reyes Bad Timing">
 
 	<div class="buttons" id="record-tiger-hi-hat">
-		<img id="record" src="images/record.png" width="153" height="64">
+		<img id="record" src="images/record.png" width="153" height="64" title="Record">
 		<span class="spacer"></span>
 		<img id="whiskers-l" class="whiskers" src="images/whiskers-l.png" width="35" height="91">
 		<img id="tiger" src="images/tiger.png" width="88" height="91">
 		<img id="whiskers-r" class="whiskers" src="images/whiskers-r.png" width="28" height="91">
 		<span class="spacer"></span>
-		<img id="hi-hat" src="images/hi-hat.png" width="150" height="64">
+		<img id="hi-hat" src="images/hi-hat.png" width="150" height="64" title="Toggle hi-hat metronome">
 	</div>
 
 	<div class="help" id="help-record">
