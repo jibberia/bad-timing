@@ -91,6 +91,9 @@ Sample.prototype.beginAnimation = function() {// return;
 	// console.log('beginAnimation ' + this.letter);
 	var animationIndex = parseInt(Math.random() * 3) + 1;
 	this.element.classList.add('shake-chunk-' + animationIndex);
+
+	showWhiskers();
+	// // setTimeout(hideWhiskers, this.source.duration * 1000.0);
 };
 
 Sample.prototype.endAnimation = function() {// return;
@@ -99,6 +102,7 @@ Sample.prototype.endAnimation = function() {// return;
 	this.element.className = this.element.className.replace(/shake-chunk-\d/, '');
 	// this.element.classList.remove('shake-chunk-' + this.animationIndex);
 	clearTimeout(this.animationTimeout);
+	hideWhiskers();
 };
 
 function initSamples(context) {
@@ -142,13 +146,60 @@ function initSamples(context) {
 	}
 }
 
+// inspired by https://github.com/cwilso/volume-meter/blob/master/volume-meter.js
+// and https://mdn.github.io/script-processor-node/
+// function volumeAudioProcess(ev) {
+// 	var buf = ev.inputBuffer.getChannelData(0);
+//     var bufLength = buf.length;
+// 	var sum = 0;
+//     var x;
+
+// 	// Do a root-mean-square on the samples: sum up the squares...
+//     for (var i=0; i<bufLength; i++) {
+//     	x = buf[i];
+//     	sum += x * x;
+//     }
+
+//     // ... then take the square root of the sum.
+//     var rms = Math.sqrt(sum / bufLength);
+
+//     // Now smooth this out with the averaging factor applied
+//     // to the previous sample - take the max here because we
+//     // want "fast attack, slow release."
+//     this.volume = Math.max(rms, this.volume*this.averaging);
+//     console.log(this.volume);
+
+//     // input -> output
+//     for (var channel = 0; i < ev.outputBuffer.numberOfChannels; channel++) {
+// 		var inputData = inputBuffer.getChannelData(channel);
+//         var outputData = outputBuffer.getChannelData(channel);
+//         // outputData = inputData;
+//         // Loop through the 4096 samples
+// 		for (var sample = 0; sample < inputBuffer.length; sample++) {
+//             // make output equal to the same as the input
+//             outputData[sample] = inputData[sample];
+//         }
+// 	}
+// }
+
 function initAudio() {
 	var AC = window.AudioContext || window.webkitAudioContext;
 	var context = window.context = new AC;
 	// var gainNode = window.gainNode = context.destination;
 	var gainNode = window.gainNode = context.createGain();
 	gainNode.gain.value = 1.0;
+
+	// var processor = window.processor = context.createScriptProcessor(4096, 2, 2);
+	// processor.onaudioprocess = volumeAudioProcess;
+	// processor.volume = 0;
+	// processor.averaging = 0.4;
+
+	// var analyser = context.createAnalyser();
+	// analyser.smoothingTimeConstant = 0.2;
+	
 	gainNode.connect(context.destination);
+	// gainNode.connect(processor);
+	// processor.connect(context.destination);
 
 }
 
@@ -410,6 +461,7 @@ function onClickLetter(ev) {
 	onPressyClickyTappy(ascii);
 }
 function onSamplesLoaded() {
+	// look, the code used to have separation of concerns!
 	initUi();
 }
 function addListener(el, fn) {
@@ -525,6 +577,11 @@ function initUi() {
 	helpRecord.style.visibility = 'visible';
 
 	document.getElementById('help-bug').onclick = toggleHelp;
+
+	// showWhiskers();
+	// window.requestAnimationFrame(function onAnimationFrame() {
+	// 	console.log(volumeAudioProcess.volume);
+	// });
 }
 // oh man i'm really getting careless here...
 window.helpVisible = true;
