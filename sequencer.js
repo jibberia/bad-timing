@@ -589,7 +589,7 @@ function initUi() {
 	// 	console.log(volumeAudioProcess.volume);
 	// });
 	
-	setTimeout(fadeOutHelp, 2000);
+	setTimeout(fadeOutHelp, 3000);
 }
 
 // oh man i'm really getting careless here...
@@ -602,7 +602,7 @@ function fadeOutHelp() {
 		if (helps[i].style.opacity == '') {
 			helps[i].style.opacity = window.DEFAULT_HELP_OPACITY;
 		}
-		helps[i].style.opacity = o = helps[i].style.opacity * 0.9;
+		helps[i].style.opacity = o = helps[i].style.opacity * 0.93;
 	}
 	if (o < 0.1) {
 		hideHelp();
@@ -615,11 +615,13 @@ function fadeOutHelp() {
 }
 // ...i mean really careless
 window.initialerhelpscale = 15.0;
+window.erscalefactor = 0.9;
 window.erhelpscale = window.initialerhelpscale;
 function highlightShowHelp() {
 	var el = document.getElementById('help-bug');
 
-	window.erhelpscale *= 0.9;
+	window.erhelpscale *= window.erscalefactor;
+	window.erscalefactor *= 0.98;
 	el.style.transform = 'scale(' + window.erhelpscale + ')';
 	if (window.erhelpscale < 1.1) {
 		el.style.transform = 'scale(1)';
