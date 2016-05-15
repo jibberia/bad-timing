@@ -518,10 +518,9 @@ function initUi() {
 		container.appendChild(row);
 	}
 
-	container.style.display = 'block';
-
 	// hide loading before computing help text position
 	document.getElementById('loading').style.display = 'none';
+	container.style.display = 'block';
 
 	// don't allow buttons to take focus
 	for (button in document.querySelectorAll('button')) {
