@@ -196,7 +196,7 @@ function initAudio() {
 
 	// var analyser = context.createAnalyser();
 	// analyser.smoothingTimeConstant = 0.2;
-	
+
 	gainNode.connect(context.destination);
 	// gainNode.connect(processor);
 	// processor.connect(context.destination);
@@ -556,7 +556,7 @@ function initUi() {
 		helpKeyZ.style.top = (offset.top + key.offsetHeight/4) + 'px';
 		helpKeyZ.style.left = (offset.left - (helpKeyZ.offsetWidth + 10)) + 'px';
 		helpKeyZ.style.visibility = 'visible';
-	}, 20);
+	}, 150);
 
 	var helpPlayPause = document.getElementById('help-play-pause');
 	offset = cumulativeOffset(playPause);
