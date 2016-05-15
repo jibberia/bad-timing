@@ -552,14 +552,16 @@ function initUi() {
 
 
 	// help text
-	setTimeout(function positionHelpKeyZ() {
+	var positionHelpKeyZ = function positionHelpKeyZ() {
 		var key = document.getElementById('key-z');
 		var helpKeyZ = document.getElementById('help-key-z');
 		var offset = cumulativeOffset(key);
 		helpKeyZ.style.top = (offset.top + key.offsetHeight/4) + 'px';
 		helpKeyZ.style.left = (offset.left - (helpKeyZ.offsetWidth + 10)) + 'px';
 		helpKeyZ.style.visibility = 'visible';
-	}, 150);
+	}
+	setTimeout(positionHelpKeyZ, 15);
+	setTimeout(positionHelpKeyZ, 750);
 
 	var helpPlayPause = document.getElementById('help-play-pause');
 	offset = cumulativeOffset(playPause);
