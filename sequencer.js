@@ -537,6 +537,7 @@ function initUi() {
 	addListener(record, toggleRecording);
 
 	var tiger = document.getElementById("tiger");
+	addListener(tiger, toggleLoop);
 
 	var hiHat = document.getElementById("hi-hat");
 	addListener(hiHat, toggleMetronome);
