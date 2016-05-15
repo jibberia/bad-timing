@@ -494,6 +494,7 @@ function initUi() {
 		     ['z','x','c','v','b','n','m']
 	];
 	var container = document.getElementById('letters');
+	container.style.display = 'none';
 	for (var ri=0; ri<keyboard.length; ri++) {
 		var row = document.createElement('div');
 		row.classList.add('row');
@@ -516,6 +517,8 @@ function initUi() {
 		}
 		container.appendChild(row);
 	}
+
+	container.style.display = 'block';
 
 	// hide loading before computing help text position
 	document.getElementById('loading').style.display = 'none';
