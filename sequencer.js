@@ -322,7 +322,7 @@ function enqueueSample(ascii, now, isMetronome) {
 	setTimeout(function enqueueSampleTimeout() {
 		var note = {time: now, ascii: ascii, scheduled: false, isMetronome: isMetronome};
 		sampleQ.push(note);
-		console.log('enqueueSample', note);
+		// console.log('enqueueSample', note);
 	}, (loopLength * 1000) / 4); // this will cause problems with short loopLengths
 }
 function getTimeInMeasure() {
@@ -497,12 +497,14 @@ function initUi() {
 
 
 	// help text
-	var key = document.getElementById('key-z');
-	var helpKeyZ = document.getElementById('help-key-z');
-	var offset = cumulativeOffset(key);
-	helpKeyZ.style.top = (offset.top + key.offsetHeight/4) + 'px';
-	helpKeyZ.style.left = (offset.left - (helpKeyZ.offsetWidth + 10)) + 'px';
-	helpKeyZ.style.visibility = 'visible';
+	setTimeout(function positionHelpKeyZ() {
+		var key = document.getElementById('key-z');
+		var helpKeyZ = document.getElementById('help-key-z');
+		var offset = cumulativeOffset(key);
+		helpKeyZ.style.top = (offset.top + key.offsetHeight/4) + 'px';
+		helpKeyZ.style.left = (offset.left - (helpKeyZ.offsetWidth + 10)) + 'px';
+		helpKeyZ.style.visibility = 'visible';
+	}, 20);
 
 	var helpPlayPause = document.getElementById('help-play-pause');
 	offset = cumulativeOffset(playPause);
@@ -521,17 +523,46 @@ function initUi() {
 	helpRecord.style.top = (offset.top + record.offsetHeight/3) + 'px';
 	helpRecord.style.left = (offset.left + record.offsetWidth + 15) + 'px';
 	helpRecord.style.visibility = 'visible';
+
+	document.getElementById('help-bug').onclick = toggleHelp;
+}
+// oh man i'm really getting careless here...
+window.helpVisible = true;
+function toggleHelp() {
+	window.helpVisible = !window.helpVisible;
+	if (window.helpVisible) {
+		showHelp();
+	} else {
+		hideHelp();
+	}
 }
 function hideHelp() {
+	var hb = document.getElementById('help-bug');
+	hb.textContent = hb.textContent.replace('hide', 'show');
 	var helps = document.querySelectorAll('.help');
 	for (var i=0; i<helps.length; i++) {
 		helps[i].style.display = 'none';
 	}
 }
 function showHelp() {
+	var hb = document.getElementById('help-bug');
+	hb.textContent = hb.textContent.replace('show', 'hide');
 	var helps = document.querySelectorAll('.help');
 	for (var i=0; i<helps.length; i++) {
 		helps[i].style.display = 'inline-block';
+	}
+}
+// they're really "comic-style sound indicators"
+function showWhiskers() {
+	var whiskers = document.querySelectorAll('.whiskers');
+	for (var i=0; i<whiskers.length; i++) {
+		whiskers[i].style.visibility = 'visible';
+	}
+}
+function hideWhiskers() {
+	var whiskers = document.querySelectorAll('.whiskers');
+	for (var i=0; i<whiskers.length; i++) {
+		whiskers[i].style.visibility = 'hidden';
 	}
 }
 
@@ -558,6 +589,11 @@ if (!('console' in window)) {
 	}
 }
 
+console.log(
+	"hello inquisitive console viewer! this was written over a couple drunk saturdays in exchange for pizza. " +
+	"i hope it works for you! :) source: https://github.com/jibberia/bad-timing"
+);
+
 /* TODO
 - test on windows; account: IEUser / Passw0rd!
 ? fix on PC iPad
@@ -566,6 +602,7 @@ x fix stuck animations!
 x record toggle
 x metronome toggle
 - what to do when holding down keys
+- god damn chrome on some android devices. grr!
 */
 
 

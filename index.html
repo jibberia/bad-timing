@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-	<title>bad timing</title>
+	<title>Ex Reyes Bad Timing</title>
 	<link href='https://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
 	<style type="text/css">
 		/* http://meyerweb.com/eric/tools/css/reset/ 
@@ -128,7 +128,7 @@
 		#img-preload {
 			display: none;
 		}
-		.help {
+		.help, #help-bug {
 			position: absolute;
 			top: 0px;
 			left: 0px;
@@ -154,10 +154,33 @@
 		#help-record {
 			transform: rotate(-3deg);
 		}
+		#help-bug {
+			cursor: pointer;
+			visibility: visible;
+			margin: 4px 0 0 4px;
+			/*display: none;*/
+		}
+		/*
+		#help-bug {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			padding: 4px;
+			font-size: 20px;
+			text-align: center;
+			margin: 4px;
+			cursor: pointer;
+
+			display: inline-block;
+			height: 20px;
+			color: rgba(255, 255, 255, 0.6);
+		}*/
+
 	</style>
 	<link rel="stylesheet" type="text/css" href="csshake.css">
 </head>
 <body>
+<div id="help-bug">hide help</div>
 <div id="container">
 	<img id="title" src="images/ex-reyes-bad-timing.png">
 
