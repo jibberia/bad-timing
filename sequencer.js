@@ -48,7 +48,7 @@ var sampleMap = {
 
 var sampleMap = {
 	'1': 'samples/hihat.mp3', // for metronome
-	
+
 	'q':"samples/badtiming04/1-drumsbass1_01.mp3",
 	'w':"samples/badtiming04/2-drumsbass3_01.mp3",
 	'e':"samples/badtiming04/3-badtiming-26-17.mp3",
@@ -75,6 +75,37 @@ var sampleMap = {
 	'b':"samples/badtiming04/24-stringclimb2_01.mp3",
 	'n':"samples/badtiming04/25-strings1_01.mp3",
 	'm':"samples/badtiming04/26-stringslong2-SR7T_02.mp3"
+};
+
+var sampleMap = {
+	'1': 'samples/hihat.mp3', // for metronome
+
+	'q': "samples/badtiming05/1-drumsbass1_02.mp3",
+	'w': "samples/badtiming05/2-drumsbass1_03.mp3",
+	'e': "samples/badtiming05/3-NEWDRUM3_01.mp3",
+	'r': "samples/badtiming05/5-NEWDRUM5_01.mp3",
+	't': "samples/badtiming05/6-NEWDRUM5_02.mp3",
+	'y': "samples/badtiming05/7-BAD TIMING MIX 2 VOCAL SAMPLES_02_01.mp3",
+	'u': "samples/badtiming05/8-BAD TIMING MIX 2 VOCAL SAMPLES_02_02.mp3",
+	'i': "samples/badtiming05/8-horn3-S4QT_01.mp3",
+	'o': "samples/badtiming05/9-pianomello1-S4QT_01.mp3",
+	'p': "samples/badtiming05/10-pianomellohits2-S4QT_01.mp3",
+	'a': "samples/badtiming05/11-sfx3_03.mp3",
+	's': "samples/badtiming05/12-sfx5_02.mp3",
+	'd': "samples/badtiming05/13-synth_04.mp3",
+	'f': "samples/badtiming05/14-synth4-S4QT_01.mp3",
+	'g': "samples/badtiming05/15-i know i know 1.1_01.mp3",
+	'h': "samples/badtiming05/16-HOWDOWEKNO1_01.mp3",
+	'j': "samples/badtiming05/17-i know it's bad timin.1_01.mp3",
+	'k': "samples/badtiming05/18-lose cuz i took a chance.1_02.mp3",
+	'l': "samples/badtiming05/20-by.1_01.mp3",
+	'z': "samples/badtiming05/22-ways.1_03.mp3",
+	'x': "samples/badtiming05/23-yeah yeah.1_02.mp3",
+	'c': "samples/badtiming05/25-strings1_01.mp3",
+	'v': "samples/badtiming05/26-stringslong2-SR7T_02.mp3",
+	'b': "samples/badtiming05/badtiming-26-17.mp3",
+	'n': "samples/badtiming05/gtr pick 1.1_02.mp3",
+	'm': "samples/badtiming05/guitspank2-S4QT_02.mp3"
 };
 
 function Sample(letter, url, buffer) {
