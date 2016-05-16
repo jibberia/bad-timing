@@ -15,36 +15,68 @@ var sampleMap = {
 };
 */
 
+// var sampleMap = {
+// 	'1': 'samples/hihat.mp3', // for metronome
+
+// 	'q': 'samples/badtiming03/badtiming-26-0.mp3' ,
+// 	'w': 'samples/badtiming03/badtiming-26-1.mp3' ,
+// 	'e': 'samples/badtiming03/badtiming-26-2.mp3' ,
+// 	'r': 'samples/badtiming03/badtiming-26-3.mp3' ,
+// 	't': 'samples/badtiming03/badtiming-26-4.mp3' ,
+// 	'y': 'samples/badtiming03/badtiming-26-5.mp3' ,
+// 	'u': 'samples/badtiming03/badtiming-26-6.mp3' ,
+// 	'i': 'samples/badtiming03/badtiming-26-7.mp3' ,
+// 	'o': 'samples/badtiming03/badtiming-26-8.mp3' ,
+// 	'p': 'samples/badtiming03/badtiming-26-9.mp3' ,
+// 	'a': 'samples/badtiming03/badtiming-26-10.mp3',
+// 	's': 'samples/badtiming03/badtiming-26-11.mp3',
+// 	'd': 'samples/badtiming03/badtiming-26-12.mp3',
+// 	'f': 'samples/badtiming03/badtiming-26-13.mp3',
+// 	'g': 'samples/badtiming03/badtiming-26-14.mp3',
+// 	'h': 'samples/badtiming03/badtiming-26-15.mp3',
+// 	'j': 'samples/badtiming03/badtiming-26-16.mp3',
+// 	'k': 'samples/badtiming03/badtiming-26-17.mp3',
+// 	'l': 'samples/badtiming03/badtiming-26-18.mp3',
+// 	'z': 'samples/badtiming03/badtiming-26-19.mp3',
+// 	'x': 'samples/badtiming03/badtiming-26-20.mp3',
+// 	'c': 'samples/badtiming03/badtiming-26-21.mp3',
+// 	'v': 'samples/badtiming03/badtiming-26-22.mp3',
+// 	'b': 'samples/badtiming03/badtiming-26-23.mp3',
+// 	'n': 'samples/badtiming03/badtiming-26-24.mp3',
+// 	'm': 'samples/badtiming03/badtiming-26-25.mp3'
+// };
+
 var sampleMap = {
 	'1': 'samples/hihat.mp3', // for metronome
+	
+	'q':"samples/badtiming04/1-drumsbass1_01.mp3",
+	'w':"samples/badtiming04/2-drumsbass3_01.mp3",
+	'e':"samples/badtiming04/3-badtiming-26-17.mp3",
+	'r':"samples/badtiming04/4-gtr pick 1.1_02.mp3",
+	't':"samples/badtiming04/5-horn3-S4QT_01.mp3",
+	'y':"samples/badtiming04/6-badtiming-26-6.mp3",
+	'u':"samples/badtiming04/7-BAD TIMING MIX 2 VOCAL SAMPLES_02_01.mp3",
+	'i':"samples/badtiming04/8-BAD TIMING MIX 2 VOCAL SAMPLES_02_02.mp3",
+	'o':"samples/badtiming04/9-pianomello1-S4QT_01.mp3",
+	'p':"samples/badtiming04/10-pianomellohits2-S4QT_01.mp3",
+	'a':"samples/badtiming04/11-sfx3_03.mp3",
+	's':"samples/badtiming04/12-sfx5_02.mp3",
+	'd':"samples/badtiming04/13-synth_04.mp3",
+	'f':"samples/badtiming04/14-synth4-S4QT_01.mp3",
+	'g':"samples/badtiming04/15-i know i know 1.1_01.mp3",
+	'h':"samples/badtiming04/16-HOWDOWEKNO1_01.mp3",
+	'j':"samples/badtiming04/17-i know it's bad timin.1_01.mp3",
+	'k':"samples/badtiming04/18-lose cuz i took a chance.1_02.mp3",
+	'l':"samples/badtiming04/19-breaks.1_01.mp3",
+	'z':"samples/badtiming04/20-by.1_01.mp3",
+	'x':"samples/badtiming04/21-watch me dance.1_02.mp3",
+	'c':"samples/badtiming04/22-ways.1_03.mp3",
+	'v':"samples/badtiming04/23-yeah yeah.1_02.mp3",
+	'b':"samples/badtiming04/24-stringclimb2_01.mp3",
+	'n':"samples/badtiming04/25-strings1_01.mp3",
+	'm':"samples/badtiming04/26-stringslong2-SR7T_02.mp3"
+};
 
-	'q': 'samples/badtiming03/badtiming-26-0.mp3' ,
-	'w': 'samples/badtiming03/badtiming-26-1.mp3' ,
-	'e': 'samples/badtiming03/badtiming-26-2.mp3' ,
-	'r': 'samples/badtiming03/badtiming-26-3.mp3' ,
-	't': 'samples/badtiming03/badtiming-26-4.mp3' ,
-	'y': 'samples/badtiming03/badtiming-26-5.mp3' ,
-	'u': 'samples/badtiming03/badtiming-26-6.mp3' ,
-	'i': 'samples/badtiming03/badtiming-26-7.mp3' ,
-	'o': 'samples/badtiming03/badtiming-26-8.mp3' ,
-	'p': 'samples/badtiming03/badtiming-26-9.mp3' ,
-	'a': 'samples/badtiming03/badtiming-26-10.mp3',
-	's': 'samples/badtiming03/badtiming-26-11.mp3',
-	'd': 'samples/badtiming03/badtiming-26-12.mp3',
-	'f': 'samples/badtiming03/badtiming-26-13.mp3',
-	'g': 'samples/badtiming03/badtiming-26-14.mp3',
-	'h': 'samples/badtiming03/badtiming-26-15.mp3',
-	'j': 'samples/badtiming03/badtiming-26-16.mp3',
-	'k': 'samples/badtiming03/badtiming-26-17.mp3',
-	'l': 'samples/badtiming03/badtiming-26-18.mp3',
-	'z': 'samples/badtiming03/badtiming-26-19.mp3',
-	'x': 'samples/badtiming03/badtiming-26-20.mp3',
-	'c': 'samples/badtiming03/badtiming-26-21.mp3',
-	'v': 'samples/badtiming03/badtiming-26-22.mp3',
-	'b': 'samples/badtiming03/badtiming-26-23.mp3',
-	'n': 'samples/badtiming03/badtiming-26-24.mp3',
-	'm': 'samples/badtiming03/badtiming-26-25.mp3'
-}
 function Sample(letter, url, buffer) {
 	this.letter = letter;
 	this.url = url;
