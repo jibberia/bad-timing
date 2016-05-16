@@ -101,8 +101,8 @@ var sampleMap = {
 	'l': "samples/badtiming05/20-by.1_01.mp3",
 	'z': "samples/badtiming05/22-ways.1_03.mp3",
 	'x': "samples/badtiming05/23-yeah yeah.1_02.mp3",
-	'c': "samples/badtiming05/25-strings1_01.mp3",
-	'v': "samples/badtiming05/26-stringslong2-SR7T_02.mp3",
+	'c': "samples/badtiming05/25-strings1_01-02.mp3",
+	'v': "samples/badtiming05/26-stringslong2_01.mp3",
 	'b': "samples/badtiming05/badtiming-26-17.mp3",
 	'n': "samples/badtiming05/gtr pick 1.1_02.mp3",
 	'm': "samples/badtiming05/guitspank2-S4QT_02.mp3"
